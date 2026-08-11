@@ -11,6 +11,9 @@ public class ShopManager : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
 
+    [SerializeField] private List<Items> itemList = new List<Items>();
+    private Dictionary<string, Items> itemDictionary = new Dictionary<string, Items>();
+
     [Header("Variables")]
     [SerializeField] private int coins;
     [SerializeField] private TMP_Text coinIU;
@@ -80,6 +83,11 @@ public class ShopManager : MonoBehaviour
     {
         coinIU.text = "Coins: " + coins.ToString();
         SetUI();
+
+        for(int i = 0; i < itemList.Count; i++)
+        {
+            itemDictionary.Add(itemList[i].itemID, itemList[i]);
+        }
     }
 
     private void SetUI()
@@ -111,6 +119,24 @@ public class ShopManager : MonoBehaviour
 
         upgrades[index].applyUpgrade();
         price[index].text = upgrades[index].currentPrice().ToString();  
+    }
+
+    public bool TryToPurchItem(string id)
+    {
+        if (!itemDictionary.TryGetValue(id, out Items item))
+        {
+            return false;
+        }
+
+        if(coins < item.price)
+        {
+            Debug.Log("no tienes suficiente dinero");
+        }
+
+        coins -= item.price;
+        coinIU.text = $"Coins: {coins}";
+
+        return true;
     }
 
     public void AddCoins()

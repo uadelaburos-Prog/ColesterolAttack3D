@@ -4,8 +4,6 @@ public class PlayerController : MonoBehaviour
 {   
     private PlayerStats stats;
 
-    [SerializeField] private float sencibility = 100f;
-
     [SerializeField] private bool useGetAxisRaw;
 
     [SerializeField] private Transform cameraPlayer;

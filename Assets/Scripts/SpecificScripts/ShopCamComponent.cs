@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShopCamComponent : MonoBehaviour
 {
     [SerializeField] private LayerMask items;
+    [SerializeField] private ShopManager shopManager;
     private void Update()
     {
         Ray ray = new Ray(transform.position, transform.forward);
@@ -19,13 +20,10 @@ public class ShopCamComponent : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                shopManager.TryToPurchItem(name);
+                Debug.Log($"Se compro el item {name}");
                 hitObject.SetActive(false);
             }
         }
     }
-
-    //public void ApplyMaterial()
-    //{
-       
-    //}
 }

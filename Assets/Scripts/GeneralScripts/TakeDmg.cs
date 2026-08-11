@@ -15,3 +15,8 @@ public interface IHealth
 {
     int Health { get; }
 }
+
+public interface IEffect
+{
+    void Effect();
+}
