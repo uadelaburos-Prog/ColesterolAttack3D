@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Items : MonoBehaviour
+public interface Items
 {
-    public string itemID;
-    public int price;
+    string ItemID { get; set; }
+    int StatPlus { get; set; }
+    int Price { get; set; }
 }

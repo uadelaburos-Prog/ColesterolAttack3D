@@ -14,9 +14,11 @@ public class ShopCamComponent : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 10f, items))
         {
             GameObject hitObject = hit.collider.gameObject;
+            var instance = hitObject.GetComponent<ItemSourceData>();
+            string ID = instance.itemID;
 
-            string name = hitObject.name;
-            Debug.Log($"El raycast golpeo {name}");
+            string name = instance.name;
+            Debug.Log($"El raycast golpeo {name} {ID}");
 
             if (Input.GetKeyDown(KeyCode.E))
             {

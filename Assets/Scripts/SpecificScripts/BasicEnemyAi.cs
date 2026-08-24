@@ -1,10 +1,12 @@
 using UnityEngine;
+using System;
 
 public class BasicEnemyAi : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float speed = 5f;
-    void Start()
+
+    private void Awake()
     {
         
     }

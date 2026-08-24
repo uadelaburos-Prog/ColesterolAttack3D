@@ -11,138 +11,53 @@ public class ShopManager : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
 
-    [SerializeField] private List<Items> itemList = new List<Items>();
-    private Dictionary<string, Items> itemDictionary = new Dictionary<string, Items>();
+    [SerializeField] private List<TrinketsSO> itemList = new List<TrinketsSO>();
+    private Dictionary<string, TrinketsSO> itemDictionary = new Dictionary<string, TrinketsSO>();
+    private HashSet<string> purchasedItems = new HashSet<string>();
+
 
     [Header("Variables")]
     [SerializeField] private int coins;
-    [SerializeField] private TMP_Text coinIU;
-
-    [SerializeField] private Button[] purchBtm;
-    [SerializeField] private TMP_Text[] title;
-    [SerializeField] private TMP_Text[] price;
-
-    private struct Upgrade
-    {
-        public string name;
-        public Func<float> currentPrice;
-        public Action applyUpgrade;
-    }
-
-    private Upgrade[] upgrades;
-
-    private void Awake() => upgrades = new Upgrade[]
-        {
-            new Upgrade
-            {
-                name = playerStats.damage,
-                currentPrice = () => playerStats.pricePlayerDamage,
-                applyUpgrade = () =>
-                {
-                    playerStats.playerDamage++;
-                    playerStats.pricePlayerDamage += 5;
-                }
-            },
-
-            new Upgrade
-            {
-                name = playerStats.health,
-                currentPrice = () => playerStats.pricePlayerHealth,
-                applyUpgrade = () =>
-                {
-                    playerStats.playerHealth++;
-                    playerStats.pricePlayerHealth += 5;
-                }
-            },
-
-            new Upgrade
-            {
-                name = playerStats.speed,
-                currentPrice = () => playerStats.pricePlayerSpeed,
-                applyUpgrade = () =>
-                {
-                    playerStats.playerSpeed++;
-                    playerStats.pricePlayerSpeed += 5;
-                }
-            },
-
-            new Upgrade
-            {
-                name = playerStats.weapon,
-                currentPrice = () => playerStats.weaponCoolDown,
-                applyUpgrade = () =>
-                {
-                    playerStats.weaponCoolDown -= 0.05f;
-                    playerStats.priceWeaponCoolDown += 5;
-                }
-            },
-        };
-
 
     private void Start()
     {
-        coinIU.text = "Coins: " + coins.ToString();
-        SetUI();
 
         for(int i = 0; i < itemList.Count; i++)
         {
-            itemDictionary.Add(itemList[i].itemID, itemList[i]);
+            itemDictionary.Add(itemList[i].name, itemList[i]);
         }
     }
 
-    private void SetUI()
+    public bool TryToPurchItem(string id, int uiIndex = -1)
     {
-        for(int i = 0; i < upgrades.Length; i++)
+        if (!itemDictionary.TryGetValue(id, out TrinketsSO item))
         {
-            int index = i;
-
-            title[i].text = upgrades[i].name;
-            price[i].text = "Price: " + upgrades[i].currentPrice().ToString();
-
-            purchBtm[i].onClick.RemoveAllListeners();
-            purchBtm[i].onClick.AddListener(() => TryToPurch(index));
-        }
-    }
-
-    private void TryToPurch(int index)
-    {
-        float cost = upgrades[index].currentPrice();
-
-        if(coins < cost)
-        {
-            Debug.Log("pobre");
-            return;
+            return false;
         }
 
-        coins -= (int)cost;
-        coinIU.text = $"Coins: {coins.ToString()}";
-
-        upgrades[index].applyUpgrade();
-        price[index].text = upgrades[index].currentPrice().ToString();  
-    }
-
-    public bool TryToPurchItem(string id)
-    {
-        if (!itemDictionary.TryGetValue(id, out Items item))
+        if(purchasedItems.Contains(id))
         {
             return false;
         }
 
         if(coins < item.price)
         {
-            Debug.Log("no tienes suficiente dinero");
+            return false;
         }
 
         coins -= item.price;
-        coinIU.text = $"Coins: {coins}";
+        purchasedItems.Add(id);
+
+        item.ApplyEffect(playerStats);
 
         return true;
     }
 
+    public bool WasPurchased(string id) => purchasedItems.Contains(id);
+
     public void AddCoins()
     {
         coins++;
-        coinIU.text = "Coins: " + coins.ToString();
     }
 
 }

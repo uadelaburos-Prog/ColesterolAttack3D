@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2828799138014517209}
   - component: {fileID: 5722603552477220954}
   - component: {fileID: 6335536898882354053}
-  - component: {fileID: 7920802419956580967}
+  - component: {fileID: 989227157247830535}
+  - component: {fileID: -1203527714603233289}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -115,7 +116,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7920802419956580967
+--- !u!114 &989227157247830535
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,7 +125,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 6658298932122523490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c1ca5a5d74bdb64385d72b3f87b5a21, type: 3}
+  m_Script: {fileID: 11500000, guid: 3452a758461c41b47bfb75b4aaa6a37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   ID: Normal
+--- !u!114 &-1203527714603233289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6658298932122523490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e70d73c0eef8a40ac17b262a56c575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BasicEnemyAi
+  playerTransform: {fileID: 0}
+  speed: 5
