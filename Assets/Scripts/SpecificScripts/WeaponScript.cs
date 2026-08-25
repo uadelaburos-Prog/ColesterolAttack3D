@@ -20,8 +20,7 @@ public class WeaponScript : MonoBehaviour
     private IEnumerator CoolDownWeapon()
     {
         canShoot = false;
-        bullet = BulletPool.Instance.GetBullet();
-        bullet.transform.position = shootPoint.position;
+        bullet = BulletPool.Instance.GetBullet(shootPoint);
         yield return new WaitForSeconds(GameManager.Instance.Player.Stats.weaponCoolDown);
         Debug.Log("se puede volver a disparar");
         canShoot = true;

@@ -14,7 +14,7 @@ public class BulletPool : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -34,19 +34,21 @@ public class BulletPool : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            GameObject bullets = Instantiate(bullet, transform.position, Quaternion.identity);
+            GameObject bullets = Instantiate(bullet);
             bullets.SetActive(false);
             bulletList.Add(bullets);
             bullets.transform.parent = transform;
         }
     }
 
-    public GameObject GetBullet()
+    public GameObject GetBullet(Transform transform)
     {
-        for(int i = 0; i < bulletList.Count; i++)
+        for (int i = 0; i < bulletList.Count; i++)
         {
             if (!bulletList[i].activeSelf)
             {
+                bulletList[i].transform.position = transform.position;
+                bulletList[i].transform.rotation = transform.rotation;
                 bulletList[i].SetActive(true);
                 return bulletList[i];
             }
