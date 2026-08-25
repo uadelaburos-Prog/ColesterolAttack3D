@@ -3,17 +3,16 @@ using System;
 
 public class BasicEnemyAi : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
+    [SerializeField] private GameObject playerTransform;
     [SerializeField] private float speed = 5f;
 
     private void Awake()
     {
-        
+        playerTransform = GameObject.Find("Player");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, speed * Time.deltaTime);
-    }
+        transform.position = Vector3.MoveTowards(transform.position, playerTransform.transform.position, speed * Time.deltaTime);
+    }   
 }

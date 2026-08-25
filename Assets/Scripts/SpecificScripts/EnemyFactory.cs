@@ -6,6 +6,8 @@ public class EnemyFactory : MonoBehaviour
     [SerializeField] private List<Enemy> enemylist = new List<Enemy>();
     private Dictionary<string, Enemy> enemyDiccionary = new Dictionary<string, Enemy>();
 
+    public List<Enemy> EnemyList => enemylist;
+
     void Start()
     {
         for(int i = 0; i < enemylist.Count; i++)

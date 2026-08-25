@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponScript : MonoBehaviour
 {
     [SerializeField] private Transform shootPoint;
-    [SerializeField] private GameObject bulletPrefab;
+    private GameObject bullet;
 
     public bool canShoot = true;
 
@@ -20,7 +20,8 @@ public class WeaponScript : MonoBehaviour
     private IEnumerator CoolDownWeapon()
     {
         canShoot = false;
-        Instantiate(bulletPrefab,shootPoint.transform.position,shootPoint.rotation);
+        bullet = BulletPool.Instance.GetBullet();
+        bullet.transform.position = shootPoint.position;
         yield return new WaitForSeconds(GameManager.Instance.Player.Stats.weaponCoolDown);
         Debug.Log("se puede volver a disparar");
         canShoot = true;

@@ -7,19 +7,19 @@ public class BulletScript : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.back * bulletSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
 
         lifeSpam -= Time.deltaTime;
         if(lifeSpam <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             lifeSpam = 10f;
         }
     }
 
     private void OnCollisionEnter (Collision collision)
     {
-        Destroy(gameObject);
-        Debug.Log("Se destruyo la bala");
+        gameObject.SetActive(false);
+        Debug.Log("Se Desactivo la bala");
     }
 }

@@ -1344,10 +1344,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFactory
   enemylist:
-  - {fileID: 989227157247830535, guid: b7e63e6fa975a9d4d9f5bcadaf76e342, type: 3}
-  - {fileID: -2932707364800960231, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
-  - {fileID: 3251350016136563741, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
-  - {fileID: -8320072166030542342, guid: 5bfb41605bc3ff543a2fab54d9ff2140, type: 3}
+  - {fileID: 5037386160288246878, guid: b7e63e6fa975a9d4d9f5bcadaf76e342, type: 3}
+  - {fileID: 3959563845249641080, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+  - {fileID: 1503014070856357093, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+  - {fileID: 8401719897825970552, guid: 5bfb41605bc3ff543a2fab54d9ff2140, type: 3}
 --- !u!1 &573833287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1520,6 +1520,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1923418952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &808182978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808182979}
+  - component: {fileID: 808182980}
+  m_Layer: 0
+  m_Name: EnemysWaves
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &808182979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808182978}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.66911, y: 3.2, z: 27.88127}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808182980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808182978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fc5d2d7093de94db54c0db6361c028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveController
+  enemysAmount: 5
+  factory: {fileID: 565422535}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,6 +1645,52 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1519437872}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &869378223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 869378225}
+  - component: {fileID: 869378224}
+  m_Layer: 0
+  m_Name: BulletPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &869378224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869378223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d267ddd7b6febfb47b21b809281d2fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  bullet: {fileID: 3935137485289075742, guid: 9a3fb03759bdde04d8be958da37c6733, type: 3}
+  poolSize: 10
+--- !u!4 &869378225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869378223}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.94315, y: 3.2, z: 30.78678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &937480649
 GameObject:
@@ -2042,6 +2134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dda4ed948b4ec44944f1a9e87f9644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  waveController: {fileID: 808182980}
   factory: {fileID: 565422535}
   target:
   - {fileID: 1766887989}
@@ -3856,3 +3949,5 @@ SceneRoots:
   - {fileID: 565422534}
   - {fileID: 1307762315}
   - {fileID: 1690817846}
+  - {fileID: 808182979}
+  - {fileID: 869378225}
