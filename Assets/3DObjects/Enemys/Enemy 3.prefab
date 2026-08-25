@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5838445274966841215}
   - component: {fileID: 8643977553853636679}
   - component: {fileID: 8401719897825970552}
-  - component: {fileID: 5156387299983138051}
   m_Layer: 0
   m_Name: Enemy 3
   m_TagString: Untagged
@@ -129,17 +128,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   ID: Rare
---- !u!114 &5156387299983138051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7460346430355932732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82335868bdefd242acec5b4d299d84a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BasicEnemyAi
-  playerTransform: {fileID: 0}
-  speed: 5

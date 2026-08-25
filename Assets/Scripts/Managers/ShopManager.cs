@@ -55,9 +55,10 @@ public class ShopManager : MonoBehaviour
 
     public bool WasPurchased(string id) => purchasedItems.Contains(id);
 
-    public void AddCoins()
+    public void AddCoins(int amount)
     {
-        coins++;
+        coins += amount;
+        Debug.Log($"Coins: {coins}");
     }
 
 }

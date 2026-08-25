@@ -4,6 +4,7 @@ public class BulletScript : MonoBehaviour
 {
     [SerializeField] private float lifeSpam = 10f;
     [SerializeField] private float bulletSpeed = 1.0f;
+    [SerializeField] private Enemy Enemy;
 
     void Update()
     {
@@ -13,13 +14,15 @@ public class BulletScript : MonoBehaviour
         if(lifeSpam <= 0)
         {
             gameObject.SetActive(false);
-            lifeSpam = 10f;
+            lifeSpam = 5f;
         }
     }
 
     private void OnCollisionEnter (Collision collision)
     {
         gameObject.SetActive(false);
-        Debug.Log("Se Desactivo la bala");
+        Enemy = collision.gameObject.GetComponent<Enemy>();
+        Debug.Log($"Obtubo el componente Enemy de: {Enemy.gameObject.name}");
+        Enemy.ReciveDmg(true);
     }
 }

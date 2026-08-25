@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4965682614022564611}
   - component: {fileID: 2471646539800601131}
   - component: {fileID: 3959563845249641080}
-  - component: {fileID: 7456242282034880551}
   m_Layer: 0
   m_Name: Enemy 1
   m_TagString: Untagged
@@ -129,17 +128,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   ID: Heavy
---- !u!114 &7456242282034880551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7389919446789316794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82335868bdefd242acec5b4d299d84a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BasicEnemyAi
-  playerTransform: {fileID: 0}
-  speed: 5
