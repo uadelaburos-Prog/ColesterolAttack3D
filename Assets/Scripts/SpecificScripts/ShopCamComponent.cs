@@ -16,14 +16,14 @@ public class ShopCamComponent : MonoBehaviour
             GameObject hitObject = hit.collider.gameObject;
             var instance = hitObject.GetComponent<ItemSourceData>();
             string ID = instance.itemID;
-
             string name = instance.name;
             Debug.Log($"El raycast golpeo {name} {ID}");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
                 shopManager.TryToPurchItem(name);
-                Debug.Log($"Se compro el item {name}");
+                shopManager.RemoveCoins(instance.sourceData.price);
+                Debug.Log($"Se compro el item {name}"); 
                 hitObject.SetActive(false);
             }
         }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106661f161a0da948b1e6b9688ec7a4a, type: 3}
   m_Name: shopMenu 4
   m_EditorClassIdentifier: Assembly-CSharp::TrinketsSO
-  title: 
-  description: 
-  cost: 0
+  itemID: b9d56642-8a5c-4fe7-8fde-68a99d826ee7
+  statType: 0
+  itemName: Trinket de Damage
+  price: 10
