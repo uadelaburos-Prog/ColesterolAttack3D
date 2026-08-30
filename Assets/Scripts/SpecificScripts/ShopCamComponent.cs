@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,16 +16,21 @@ public class ShopCamComponent : MonoBehaviour
         {
             GameObject hitObject = hit.collider.gameObject;
             var instance = hitObject.GetComponent<ItemSourceData>();
+            if (instance == null) return;
+
             string ID = instance.itemID;
-            string name = instance.name;
-            Debug.Log($"El raycast golpeo {name} {ID}");
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                shopManager.TryToPurchItem(name);
-                shopManager.RemoveCoins(instance.sourceData.price);
-                Debug.Log($"Se compro el item {name}"); 
-                hitObject.SetActive(false);
+                bool purch = shopManager.TryToPurchItem(instance.sourceData.ItemID);
+                if (purch)
+                {
+                    Debug.Log($"Se compro el item {ID}");
+                    hitObject.SetActive(false);
+                }
+                else
+                    Debug.Log($"No se pudo comprar {ID} (sin fondos?)");
+
             }
         }
     }

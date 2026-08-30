@@ -9,6 +9,6 @@ public class ItemSourceData : MonoBehaviour
     public void SetData(TrinketsSO data)
     {
         sourceData = data;
-        itemID = data.ItemName;
+        itemID = data.ItemID;
     }
 }

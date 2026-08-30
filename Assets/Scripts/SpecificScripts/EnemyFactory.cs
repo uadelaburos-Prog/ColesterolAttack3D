@@ -8,19 +8,19 @@ public class EnemyFactory : MonoBehaviour
 
     public List<Enemy> EnemyList => enemylist;
 
-    void Start()
+    void Awake()
     {
         for(int i = 0; i < enemylist.Count; i++)
         {
-            enemyDiccionary.Add(enemylist[i].ID, enemylist[i]);
+            enemyDiccionary.TryAdd(enemylist[i].ID, enemylist[i]);
         }
     }
     
-    public Enemy CreateEnemy(string enemyType, Transform position)
+    public Enemy CreateEnemy(string enemyType, Vector3 position, Quaternion rotation)
     {
         if (enemyDiccionary.ContainsKey(enemyType))
         {
-            return Instantiate(enemyDiccionary[enemyType], position.position, position.rotation);
+            return Instantiate(enemyDiccionary[enemyType], position, rotation);
         }
         else
             return null;

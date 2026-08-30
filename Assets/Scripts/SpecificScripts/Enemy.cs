@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, iHealth
@@ -6,8 +8,9 @@ public class Enemy : MonoBehaviour, iHealth
     [SerializeField] private int damage = 1;
 
     private ShopManager shopM;
-    public bool Dmg = false;    
+    public bool Dmg = false;
     public string ID;
+    public event Action<Enemy> OnDeath;
 
     [System.Obsolete]
     private void OnEnable()
@@ -27,6 +30,12 @@ public class Enemy : MonoBehaviour, iHealth
     {
         shopM.AddCoins(5);
         gameObject.SetActive(false);
+        if (!isActiveAndEnabled)
+        {
+            Destroy(gameObject);
+        }
+
+        OnDeath?.Invoke(this);  
     }
 
     public void RegenHealth(int life)
@@ -43,7 +52,6 @@ public class Enemy : MonoBehaviour, iHealth
     {
         if (dmg)
         {
-            Debug.Log("Recibio Daño");
             life--;
         }
     }

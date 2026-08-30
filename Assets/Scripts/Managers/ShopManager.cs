@@ -1,12 +1,9 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
@@ -19,28 +16,31 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int coins;
     [SerializeField] private TextMeshProUGUI coinsUi;
 
-    private void Start()
+    private void Awake()
     {
         for (int i = 0; i < itemList.Count; i++)
         {
-            itemDictionary.Add(itemList[i].name, itemList[i]);
+            itemDictionary.Add(itemList[i].ItemID, itemList[i]);
         }
+
+        UpdateCoinsUI();
     }
 
     public bool TryToPurchItem(string id, int uiIndex = -1)
     {
         if (!itemDictionary.TryGetValue(id, out TrinketsSO item))
         {
+            Debug.Log($"[TryToPurchItem] '{id}' no está en itemDictionary");
             return false;
         }
-
-        if(purchasedItems.Contains(id))
+        if (purchasedItems.Contains(id))
         {
+            Debug.Log($"[TryToPurchItem] '{id}' ya fue comprado");
             return false;
         }
-
-        if(coins < item.price)
+        if (coins < item.price)
         {
+            Debug.Log($"[TryToPurchItem] Coins insuficientes: tenés {coins}, cuesta {item.price}");
             return false;
         }
 
@@ -51,19 +51,27 @@ public class ShopManager : MonoBehaviour
 
         return true;
     }
+    private void UpdateCoinsUI()
+    {
+        coinsUi.text = coins.ToString();
+    }
 
     public bool WasPurchased(string id) => purchasedItems.Contains(id);
+
+    public void ClearPurchasedItems()
+    {
+        purchasedItems.Clear();
+    }
 
     public void AddCoins(int amount)
     {
         coins += amount;
-        coinsUi.text = coins.ToString();
+        UpdateCoinsUI();
     }
 
     public void RemoveCoins(int amount)
     {
-        coins -= amount;
-        coinsUi.text = coins.ToString();
+        coins = Mathf.Max(0, coins - amount);
+        UpdateCoinsUI();
     }
-
 }
