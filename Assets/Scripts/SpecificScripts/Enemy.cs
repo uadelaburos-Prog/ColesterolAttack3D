@@ -1,11 +1,14 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour, iHealth
 {
     [SerializeField] private int life = 3;
+    private int currentLife;
     [SerializeField] private int damage = 1;
+    [SerializeField] private HealthBar healthBar;
 
     private ShopManager shopM;
     public bool Dmg = false;
@@ -16,15 +19,8 @@ public class Enemy : MonoBehaviour, iHealth
     private void OnEnable()
     {
         shopM = FindObjectOfType<ShopManager>();
-    }
-
-    private void Update()
-    {
-        Debug.Log($"Vida: {life}");
-        if(life <= 0)
-        {
-            Die();
-        }
+        healthBar = GetComponent<HealthBar>();
+        currentLife = life;
     }
     public void Die()
     {
@@ -52,7 +48,13 @@ public class Enemy : MonoBehaviour, iHealth
     {
         if (dmg)
         {
-            life--;
+            currentLife--;
+            healthBar.UpdateHealthBar(life, currentLife);
+
+            if(currentLife <= 0)
+            {
+                Die();
+            }
         }
     }
 }

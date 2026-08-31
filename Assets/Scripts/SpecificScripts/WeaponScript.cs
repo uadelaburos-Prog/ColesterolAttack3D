@@ -5,22 +5,40 @@ using UnityEngine;
 public class WeaponScript : MonoBehaviour
 {
     [SerializeField] private Transform shootPoint;
+    [SerializeField] private LineRenderer line;
     private float range = 20f;
     public bool canShoot = true;
 
-    private void FixedUpdate()
+    private void Start()
+    {
+        line.enabled = true;
+    }
+
+    private void Update()
     {
         Ray ray = new Ray(shootPoint.position, shootPoint.forward);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, range))
         {
+            line.SetPosition(0, shootPoint.position);
+            line.SetPosition(1, hit.point);
+
             if (Input.GetKey(KeyCode.Mouse0) && canShoot)
             {
                 Enemy e = hit.collider.gameObject.GetComponent<Enemy>();
                 if (e == null) return;
+                SetLineColor(Color.red);
                 e.ReciveDmg(true);
                 StartCoroutine(CoolDownWeapon());
             }
+            else 
+                SetLineColor(Color.white);
+        }
+        else
+        {
+            line.SetPosition(0, shootPoint.position);
+            line.SetPosition(1, shootPoint.position + shootPoint.forward * range);
+            SetLineColor(Color.grey);
         }
     }
 
@@ -28,7 +46,6 @@ public class WeaponScript : MonoBehaviour
     {
         canShoot = false;
         yield return new WaitForSeconds(GameManager.Instance.Player.Stats.weaponCoolDown);
-        Debug.Log("se puede volver a disparar");
         canShoot = true;
     }
 
@@ -52,5 +69,11 @@ public class WeaponScript : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawLine(shootPoint.position, shootPoint.position + shootPoint.forward * range);
         }
+    }
+
+    private void SetLineColor(Color color)
+    {
+        line.startColor = color;
+        line.endColor = color;
     }
 }

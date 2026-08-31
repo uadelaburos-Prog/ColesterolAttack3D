@@ -26,21 +26,18 @@ public class ShopManager : MonoBehaviour
         UpdateCoinsUI();
     }
 
-    public bool TryToPurchItem(string id, int uiIndex = -1)
+    public bool TryToPurchItem(string id)
     {
         if (!itemDictionary.TryGetValue(id, out TrinketsSO item))
         {
-            Debug.Log($"[TryToPurchItem] '{id}' no está en itemDictionary");
             return false;
         }
         if (purchasedItems.Contains(id))
         {
-            Debug.Log($"[TryToPurchItem] '{id}' ya fue comprado");
             return false;
         }
         if (coins < item.price)
         {
-            Debug.Log($"[TryToPurchItem] Coins insuficientes: tenés {coins}, cuesta {item.price}");
             return false;
         }
 
