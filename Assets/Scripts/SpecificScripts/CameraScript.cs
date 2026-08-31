@@ -5,8 +5,7 @@ public class CameraScript : MonoBehaviour
 {
     public bool canMove = true;
 
-    [SerializeField] private float xSencibility;
-    [SerializeField] private float ySencibility;
+    [SerializeField] private float Sencibility;
 
     public Transform player;
 
@@ -22,8 +21,8 @@ public class CameraScript : MonoBehaviour
     {
         if(!canMove) return;
 
-        float xValue = Input.GetAxis("Mouse X") * xSencibility * Time.deltaTime;
-        float yValue = Input.GetAxis("Mouse Y") * ySencibility * Time.deltaTime;
+        float xValue = Input.GetAxis("Mouse X") * Sencibility * Time.deltaTime;
+        float yValue = Input.GetAxis("Mouse Y") * Sencibility * Time.deltaTime;
 
         xRotation += xValue;
         yRotation -= yValue;
@@ -32,6 +31,6 @@ public class CameraScript : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(yRotation, 0, 0);
 
-        player.Rotate(0, xSencibility * xValue, 0);
+        player.Rotate(Vector3.up * xValue);
     }
 }

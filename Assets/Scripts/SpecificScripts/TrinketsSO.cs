@@ -37,19 +37,19 @@ public class TrinketsSO : ScriptableObject
         {
             case StatType.Damage:
                 stats.playerDamage++;
-                stats.pricePlayerDamage += 5;
+                price = stats.pricePlayerDamage += 5;
                 break;
             case StatType.Health:
                 stats.playerHealth++;
-                stats.pricePlayerHealth += 5;
+                price = stats.pricePlayerHealth += 5;
                 break;
             case StatType.Speed:
                 stats.playerSpeed++;
-                stats.pricePlayerSpeed += 5;
+                price = (int)(stats.pricePlayerSpeed += 5);
                 break;
             case StatType.WeaponCooldown:
                 stats.weaponCoolDown -= 0.05f;
-                stats.priceWeaponCoolDown += 5;
+                price = stats.priceWeaponCoolDown += 5;
                 break;
         }
     }
