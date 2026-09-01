@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour, iHealth
 {
     [SerializeField] private int life = 3;
-    private int currentLife;
+    public int currentLife;
     [SerializeField] private int damage = 1;
     [SerializeField] private HealthBar healthBar;
 
@@ -14,6 +14,9 @@ public class Enemy : MonoBehaviour, iHealth
     public bool Dmg = false;
     public string ID;
     public event Action<Enemy> OnDeath;
+    public HealthBar pHealtBar => healthBar;
+    public int Life => life;
+    public bool canShootHim = true;
 
     [System.Obsolete]
     private void OnEnable()
@@ -34,9 +37,10 @@ public class Enemy : MonoBehaviour, iHealth
         OnDeath?.Invoke(this);  
     }
 
-    public void RegenHealth(int life)
+    public int RegenHealth(int life)
     {
-        throw new System.NotImplementedException();
+        life += 1;
+        return life;
     }
 
     public void DoDmg(int damage)
@@ -46,15 +50,18 @@ public class Enemy : MonoBehaviour, iHealth
 
     public void ReciveDmg(bool dmg)
     {
-        if (dmg)
+        if (canShootHim)
         {
-            currentLife--;
-            healthBar.UpdateHealthBar(life, currentLife);
-
-            if(currentLife <= 0)
+            if (dmg)
             {
-                Die();
+                currentLife--;
+                healthBar.UpdateHealthBar(life, currentLife);
+
+                if (currentLife <= 0)
+                {
+                    Die();
+                }
             }
-        }
+        } 
     }
 }
