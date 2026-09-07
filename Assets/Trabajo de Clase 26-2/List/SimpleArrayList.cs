@@ -86,7 +86,7 @@ namespace ED262C
         public void RemoveAt(int index)
         {
             // Si el indice no existe, rompemos el programa
-            if(index < 0 || index >= internalArray.Length) 
+            if(index < 0 || index >= count) 
                 throw new ArgumentOutOfRangeException("Index is outside of bounds");
             
             ShiftLeft(index, 1);
@@ -114,9 +114,13 @@ namespace ED262C
         public void RemoveRange(int index, int count)
         {
             // Si el indice no existe, rompemos el programa
-            if(index < 0 || index >= internalArray.Length) 
+            if(index < 0 || index >= this.count) 
                 throw new ArgumentOutOfRangeException("Index is outside of bounds");
-            
+
+            // Validamos que se puedan remover la cantidad de elementos indicados desde el indice indicado
+            if (index + count >= this.count)
+                throw new ArgumentException("Offset and remove count exceed the last element on the list.");
+
             // Corremos todos los elementos que vayan despues de index para la izq
             // Lo movemos una cantidad de espacios = la que queremos remover
             ShiftLeft(index, count);
@@ -176,7 +180,7 @@ namespace ED262C
         void ShiftLeft(int index, int offset)
         {
             // Lo que esta en el casillero actual se pisa con el siguiente
-            for(int i = index; i < count; i++)
+            for(int i = index; i < count - offset; i++)
                 internalArray[i] = internalArray[i + offset];
 
             // Limpiamos todo lo que vaya despues del ultimo elemento

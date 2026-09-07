@@ -1,17 +1,16 @@
 using UnityEngine;
-using System;
-using Unity.VisualScripting;
 using System.Collections;
-using UnityEngine.AdaptivePerformance;
+using ED262C;
+using System.Collections.Generic;
 
 enum EnemyStates
 {
     Idle,
-    LowHealth,
+    Regenerating,
     Chasing,
 };
 
-public class BasicEnemyAi : MonoBehaviour
+public class RegeneratorAI : MonoBehaviour
 {
     private EnemyStates enemyState;
     [SerializeField] private LayerMask playerMask;
@@ -28,10 +27,17 @@ public class BasicEnemyAi : MonoBehaviour
     private Enemy self;
     private bool isMooving = false;
 
+    [SerializeField] private List<GameObject> spheresList = new List<GameObject>();
+    private SimpleArrayStack<GameObject> spheresStack = new SimpleArrayStack<GameObject>();
+
     private void Awake()
     {
+        for (int i = 0; i < spheresList.Count; i++)
+        {
+            spheresStack.Push(spheresList[i]);
+        }
+
         self = GetComponent<Enemy>();
-        Debug.Log($"Se obtuvo el componente {self}");
     }
 
     private void Start()
@@ -48,10 +54,11 @@ public class BasicEnemyAi : MonoBehaviour
 
         Vector3 direction = (player.transform.position - transform.position).normalized;
         direction.y = 0;
+        direction.Normalize();
 
-        if (self.currentLife == 1)
+        if (self.currentLife == 1 && !isMooving && !spheresStack.IsEmpty)
         {
-            StartCoroutine(Regenlife(self.currentLife, 3.5f,1.5f, enemyState));
+            StartCoroutine(Regenlife(self.currentLife, 3.5f,1.5f));
         }
 
         switch (enemyState)
@@ -59,7 +66,7 @@ public class BasicEnemyAi : MonoBehaviour
             case EnemyStates.Idle:
                 enemyState = EnemyStates.Chasing;
                 break;
-            case EnemyStates.LowHealth:
+            case EnemyStates.Regenerating:
 
                 break;
             case EnemyStates.Chasing:
@@ -75,26 +82,45 @@ public class BasicEnemyAi : MonoBehaviour
         transform.position += direction * actualVelocity * Time.deltaTime;
     }
 
-    private IEnumerator Regenlife(int life, float waitingTime, float secWaitingTime, EnemyStates eS)
+    private IEnumerator Regenlife(int life, float waitingTime, float secWaitingTime)
     {
-        eS = EnemyStates.LowHealth;
+        enemyState = EnemyStates.Regenerating;
         isMooving = true;
         self.canShootHim = false;
+
         yield return new WaitForSeconds(waitingTime);
+
+        ConsumeSpheres();
         self.currentLife = life += 1;
         self.pHealtBar.UpdateHealthBar(self.Life,self.currentLife);
+
         yield return new WaitForSeconds(waitingTime);
+
+        ConsumeSpheres();
         self.currentLife = life += 1;
         self.pHealtBar.UpdateHealthBar(self.Life, self.currentLife);
+
         yield return new WaitForSeconds(secWaitingTime);
+
         isMooving = false;
         self.canShootHim = true;
-        eS = EnemyStates.Chasing;
+        enemyState = EnemyStates.Chasing;
+    }
+
+    private void ConsumeSpheres()
+    {
+        if (spheresStack.IsEmpty)
+        {
+            return;
+        }
+
+        GameObject sphere = spheresStack.Pop();
+        sphere.SetActive(false);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.crimson;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, walkingRadius);
     }
 }
