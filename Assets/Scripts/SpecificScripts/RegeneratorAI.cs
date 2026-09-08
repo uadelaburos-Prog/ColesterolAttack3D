@@ -25,17 +25,14 @@ public class RegeneratorAI : MonoBehaviour
 
     private GameObject player;
     private Enemy self;
-    private bool isMooving = false;
+    [SerializeField] private bool isMooving = false;
 
     [SerializeField] private List<GameObject> spheresList = new List<GameObject>();
     private SimpleArrayStack<GameObject> spheresStack = new SimpleArrayStack<GameObject>();
 
     private void Awake()
     {
-        for (int i = 0; i < spheresList.Count; i++)
-        {
-            spheresStack.Push(spheresList[i]);
-        }
+        SpheresListToStack();
 
         self = GetComponent<Enemy>();
     }
@@ -59,6 +56,11 @@ public class RegeneratorAI : MonoBehaviour
         if (self.currentLife == 1 && !isMooving && !spheresStack.IsEmpty)
         {
             StartCoroutine(Regenlife(self.currentLife, 3.5f,1.5f));
+        }
+
+        if (spheresStack.IsEmpty)
+        {
+            StartCoroutine(RegenSpheres());
         }
 
         switch (enemyState)
@@ -107,6 +109,24 @@ public class RegeneratorAI : MonoBehaviour
         enemyState = EnemyStates.Chasing;
     }
 
+    private IEnumerator RegenSpheres()
+    {
+        self.canShootHim = false;
+        isMooving = true;
+        enemyState = EnemyStates.Regenerating;
+
+        yield return new WaitForSeconds(5);
+
+        SpheresListToStack();
+        RegenDeactiveSpheres();
+
+        yield return new WaitForSeconds(2);
+
+        enemyState = EnemyStates.Chasing;
+        isMooving = false;
+        self.canShootHim = true;
+    }
+
     private void ConsumeSpheres()
     {
         if (spheresStack.IsEmpty)
@@ -116,6 +136,23 @@ public class RegeneratorAI : MonoBehaviour
 
         GameObject sphere = spheresStack.Pop();
         sphere.SetActive(false);
+    }
+
+    private void RegenDeactiveSpheres()
+    {
+        for (int i = 0; i < spheresStack.Count; i++)
+        {
+            GameObject s = spheresStack.Pop();
+            s.SetActive(true);
+        }
+    }
+
+    private void SpheresListToStack()
+    {
+        for (int i = 0; i < spheresList.Count; i++)
+        {
+            spheresStack.Push(spheresList[i]);
+        }
     }
 
     private void OnDrawGizmos()

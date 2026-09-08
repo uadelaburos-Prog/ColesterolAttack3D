@@ -26,9 +26,12 @@ public class WeaponScript : MonoBehaviour
             if (Input.GetKey(KeyCode.Mouse0) && canShoot)
             {
                 Enemy e = hit.collider.gameObject.GetComponent<Enemy>();
+                Shielder s = hit.collider.gameObject.GetComponent<Shielder>();
                 if (e == null) return;
+                if (s == null) return;
                 SetLineColor(Color.red);
                 e.ReciveDmg(true);
+                s.ShieldDmg(true);
                 StartCoroutine(CoolDownWeapon());
             }
             else 
