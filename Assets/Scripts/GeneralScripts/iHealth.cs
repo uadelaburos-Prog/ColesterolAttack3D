@@ -7,4 +7,3 @@ public interface iHealth
     void Die();
     void ReciveDmg(bool dmg);
 }
-

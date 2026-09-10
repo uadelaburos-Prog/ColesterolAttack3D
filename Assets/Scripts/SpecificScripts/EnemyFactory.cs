@@ -16,7 +16,7 @@ public class EnemyFactory : MonoBehaviour
         }
     }
     
-    public Enemy CreateEnemy(string enemyType, Vector3 position, Quaternion rotation)
+    public Enemy CreateEnemy(string enemyType, Vector3 position, Quaternion rotation) // Factory: crea x cosa al ser llamado y dandole los datos necesarios
     {
         if (enemyDiccionary.ContainsKey(enemyType))
         {

@@ -3,7 +3,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "shopMenu", menuName = "TrinketsSO/New Trinket", order = 0)]
-public class TrinketsSO : ScriptableObject
+public class TrinketsSO : ScriptableObject // Scriptable Object: objecto que se puede crear multiples instancias de uno con distintos datos entre si
 {
     public enum StatType
     {

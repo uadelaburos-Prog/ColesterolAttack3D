@@ -12,7 +12,7 @@ public class BulletPool : MonoBehaviour
     private static BulletPool instance;
     public static BulletPool Instance { get { return instance; } }
 
-    private void Awake()
+    private void Awake() // Singletone: solo puede existir uno
     {
         if (instance == null)
         {
