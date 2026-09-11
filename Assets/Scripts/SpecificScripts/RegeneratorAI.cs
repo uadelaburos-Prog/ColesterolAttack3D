@@ -113,10 +113,10 @@ public class RegeneratorAI : MonoBehaviour
     {
         self.canShootHim = false;
         isMooving = true;
-        enemyState = EnemyStates.Regenerating;
+        enemyState = EnemyStates.Regenerating; 
 
         yield return new WaitForSeconds(5);
-
+                                           
         SpheresListToStack();
         RegenDeactiveSpheres();
 

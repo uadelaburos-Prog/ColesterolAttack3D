@@ -9,7 +9,6 @@ public class HealthBar : MonoBehaviour
     private float target = 1;
     private Camera cam;
 
-
     private void Start()
     {
         cam = Camera.main;
