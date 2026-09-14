@@ -2,12 +2,14 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-public class WeaponScript : MonoBehaviour
+public class WeaponScript : MonoBehaviour, IWeapon
 {
     [SerializeField] private Transform shootPoint;
     [SerializeField] private LineRenderer line;
     private float range = 20f;
     public bool canShoot = true;
+
+    public string Name => "Pistol";
 
     private void Start()
     {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4053839009755266617}
   - component: {fileID: 6666644160007246742}
   - component: {fileID: 6974291603765589973}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8034371216530948456}
   - component: {fileID: 2203949373993240544}
   - component: {fileID: 4769760805491140865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 8643977553853636679}
   - component: {fileID: 8401719897825970552}
   - component: {fileID: 6629085147477934713}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,10 +281,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   life: 3
+  currentLife: 0
   damage: 1
   healthBar: {fileID: 6629085147477934713}
   Dmg: 0
   ID: Rare
+  canShootHim: 1
 --- !u!114 &6629085147477934713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +313,7 @@ GameObject:
   - component: {fileID: 6537166461054705014}
   - component: {fileID: 4074006845992127739}
   - component: {fileID: 3173839806408261222}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
