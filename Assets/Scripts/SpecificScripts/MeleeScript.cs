@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,8 +9,8 @@ public class MeleeScript : MonoBehaviour, IWeapon
     [SerializeField] private float coolDown = 5f;
     private bool canSwing = true;
 
-    [SerializeField] private float radio = 10f;
-    [SerializeField] private float maxDistance = 20f;
+    [SerializeField] private float radio = 0.5f;
+    [SerializeField] private float maxDistance = 3;
     [SerializeField] private LayerMask enemy;
 
     private void Update()
@@ -19,10 +20,15 @@ public class MeleeScript : MonoBehaviour, IWeapon
         {
             foreach (var hit in hits)
             {
+                RegeneratorAI regen = hit.collider.GetComponent<RegeneratorAI>();
+                if(regen != null && regen.IsRegenerating)
+                {
+                    regen.MeleeExecute();
+                    continue;
+                }
+
                 Enemy e = hit.collider.gameObject.GetComponent<Enemy>();
                 Shielder s = hit.collider.gameObject.GetComponent<Shielder>();
-                Debug.Log($"{e}");
-                Debug.Log($"{s}");
                 if(e != null)
                     e.ReciveDmg(true);
                 if(s != null)
@@ -42,7 +48,8 @@ public class MeleeScript : MonoBehaviour, IWeapon
 
     private void OnDrawGizmos()
     {
+        Vector3 dir = transform.right * -1;
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, radio);
+        Gizmos.DrawWireSphere(transform.position + dir * maxDistance, radio);
     }
 }

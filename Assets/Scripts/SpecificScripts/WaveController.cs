@@ -1,4 +1,6 @@
+using ED262C;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,11 +15,20 @@ public class WaveController : MonoBehaviour
     [SerializeField] private Vector2 spawnAreaSize = new Vector2(10f, 10f);
     [SerializeField] private Transform spawnCenter;
     [SerializeField] private EnemyFactory factory;
+    [SerializeField] private float delaySpawnTime = 0.3f;
 
     public event Action OnWaveCompleted;
 
     private List<Enemy> aliveEnemies = new List<Enemy>();
+    private SimpleArrayQueue<SpawnData> spawnQueue = new SimpleArrayQueue<SpawnData>();
     private bool areEnemies;
+    private bool spawning;
+
+    private struct SpawnData
+    {
+        public string type;
+        public Vector3 pos;
+    }
 
     private void Start()
     {
@@ -26,7 +37,7 @@ public class WaveController : MonoBehaviour
 
     public void Update()
     {
-        if(!areEnemies)
+        if(!areEnemies && !spawning)
         {
             SpawnWave();
             HandelWave();
@@ -36,20 +47,39 @@ public class WaveController : MonoBehaviour
     public void SpawnWave()
     {
         aliveEnemies.Clear();
+        spawnQueue.Clear();
 
         for (int i = 0; i < enemysAmount; i++)
         {
-            Vector3 ramdomPos = GetRandomPosInArea();
-            string type = names[Random.Range(0, names.Length)];
-            Enemy e = factory.CreateEnemy(type, ramdomPos, Quaternion.identity);
+            spawnQueue.Enqueue(new SpawnData
+            {
+                type = names[Random.Range(0, names.Length)],
+                pos = GetRandomPosInArea()
+            });
+        }
+
+        StartCoroutine(SpawnQueueRoutine());
+    }
+
+    private IEnumerator SpawnQueueRoutine()
+    {
+        spawning = true;
+
+        while (!spawnQueue.IsEmpty)
+        {
+            SpawnData data = spawnQueue.Dequeue();
+            Enemy e = factory.CreateEnemy(data.type, data.pos, Quaternion.identity);
 
             if(e != null)
             {
                 aliveEnemies.Add(e);
                 e.OnDeath += HandleEnemyDeath;
             }
+            yield return new WaitForSeconds(delaySpawnTime);
         }
+
         areEnemies = true;
+        spawning = false;
     }
 
     private void HandleEnemyDeath(Enemy e)

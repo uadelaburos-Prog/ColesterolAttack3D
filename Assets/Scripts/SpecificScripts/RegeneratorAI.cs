@@ -30,6 +30,14 @@ public class RegeneratorAI : MonoBehaviour
     [SerializeField] private List<GameObject> spheresList = new List<GameObject>();
     private SimpleArrayStack<GameObject> spheresStack = new SimpleArrayStack<GameObject>();
 
+    public bool IsRegenerating => enemyState == EnemyStates.Regenerating;
+
+    public void MeleeExecute()
+    {
+        StopAllCoroutines();
+        self.Die();
+    }
+
     private void Awake()
     {
         SpheresListToStack();

@@ -352,7 +352,7 @@ MonoBehaviour:
   walkingRadius: 10
   minDistance: 5
   maxDistance: 15
-  isMooving: 1
+  isMooving: 0
   spheresList:
   - {fileID: 7855594301221773007}
   - {fileID: 1400463606000896463}
