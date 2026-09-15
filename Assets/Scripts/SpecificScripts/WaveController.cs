@@ -9,22 +9,31 @@ public class WaveController : MonoBehaviour
 {
     [SerializeField] private ShopManager shopManager;
     [SerializeField] private ItemGenerator itemGenerator;
+
     [SerializeField] private string[] names;
     [SerializeField] private int enemysAmount = 5;
     [SerializeField] private int waveCount = 1;
+
     [SerializeField] private Vector2 spawnAreaSize = new Vector2(10f, 10f);
     [SerializeField] private Transform spawnCenter;
+
     [SerializeField] private EnemyFactory factory;
-    [SerializeField] private float delaySpawnTime = 0.3f;
+    [SerializeField] private float delaySpawnTime = 0.3f; 
 
     public event Action OnWaveCompleted;
 
     private List<Enemy> aliveEnemies = new List<Enemy>();
     private SimpleArrayQueue<SpawnData> spawnQueue = new SimpleArrayQueue<SpawnData>();
+
     private bool areEnemies;
     private bool spawning;
 
-    private struct SpawnData
+    public int Amount => enemysAmount;
+    public SimpleArrayQueue<SpawnData> SpawnQueue { get { return spawnQueue; } }
+    public string[] Names => names;
+    public Vector2 SpawnAreaSize { get { return spawnAreaSize; } }
+
+    public struct SpawnData
     {
         public string type;
         public Vector3 pos;
@@ -68,7 +77,7 @@ public class WaveController : MonoBehaviour
         while (!spawnQueue.IsEmpty)
         {
             SpawnData data = spawnQueue.Dequeue();
-            Enemy e = factory.CreateEnemy(data.type, data.pos, Quaternion.identity);
+            Enemy e = EnemyDPool.Instance.GetEnemy(data.type, data.pos);
 
             if(e != null)
             {
@@ -102,7 +111,7 @@ public class WaveController : MonoBehaviour
         itemGenerator.GenerateItems();
     }
 
-    private Vector3 GetRandomPosInArea()
+    public Vector3 GetRandomPosInArea()
     {
         float x = Random.Range(-spawnAreaSize.x / 2f, spawnAreaSize.x / 2f);
         float z = Random.Range(-spawnAreaSize.y / 2f, spawnAreaSize.y / 2f);

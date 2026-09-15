@@ -15,13 +15,12 @@ public class Shielder : MonoBehaviour
     [SerializeField] private float chasingSpeed = 3f;
     [SerializeField] private float agroSpeed = 10f;
 
-    //[SerializeField] private float chasingRadius = 10;
-
     [SerializeField] private float minDistance = 5f;
     [SerializeField] private float maxDistance = 10f;
 
     [SerializeField] private GameObject shield;
     [SerializeField] private float shieldLife = 6;
+    private float initialShieldLife;
     private bool shieldReciveDmg;
 
     private GameObject player;
@@ -31,13 +30,23 @@ public class Shielder : MonoBehaviour
     private void Awake()
     {
         self = GetComponent<Enemy>();
+        initialShieldLife = shieldLife;
+        player = GameObject.Find("Player");
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        self.canShootHim = false;
+        StopAllCoroutines();
+
         shielderStates = ShielderStates.Chasing;
-        player = GameObject.Find("Player");
+        isMooving = false;
+        shieldLife = initialShieldLife;
+
+        if (shield != null)
+            shield.SetActive(true);
+
+        if (self != null)
+            self.canShootHim = false;
     }
 
     private void Update()
@@ -50,7 +59,7 @@ public class Shielder : MonoBehaviour
         direction.y = 0;
         direction.Normalize();
 
-        if(shieldLife == 0)
+        if (shieldLife <= 0 && shielderStates != ShielderStates.ShieldDown && shielderStates != ShielderStates.Agro)
         {
             StartCoroutine(ShieldDownRutine(2f));
         }
@@ -65,13 +74,11 @@ public class Shielder : MonoBehaviour
                 MoveTowardsPlayer(direction, agroSpeed);
                 break;
             case ShielderStates.ShieldDown:
-
                 break;
-
         }
     }
 
-    private IEnumerator ShieldDownRutine(float agroPassTime) 
+    private IEnumerator ShieldDownRutine(float agroPassTime)
     {
         shielderStates = ShielderStates.ShieldDown;
         shield.SetActive(false);
@@ -89,14 +96,14 @@ public class Shielder : MonoBehaviour
         transform.position += direction * actualVelocity * Time.deltaTime;
     }
 
-    public void ShieldDmg(bool reciveDmg) 
+    public void ShieldDmg(bool reciveDmg)
     {
         shieldReciveDmg = reciveDmg;
         if (shieldReciveDmg)
         {
             shieldLife -= 1;
         }
-        else 
+        else
             reciveDmg = false;
     }
 }

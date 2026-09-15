@@ -34,25 +34,39 @@ public class BulletPool : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            GameObject bullets = Instantiate(bullet);
-            bullets.SetActive(false);
-            bulletList.Add(bullets);
-            bullets.transform.parent = transform;
+            CreateBullet();
         }
     }
 
-    public GameObject GetBullet(Transform transform)
+    private GameObject CreateBullet()
+    {
+        GameObject newBullet = Instantiate(bullet);
+        newBullet.SetActive(false);
+        newBullet.transform.SetParent(transform, false);
+        bulletList.Add(newBullet);
+        return newBullet;
+    }
+
+    public GameObject GetBullet(Transform spawnPoint)
     {
         for (int i = 0; i < bulletList.Count; i++)
         {
             if (!bulletList[i].activeSelf)
             {
-                bulletList[i].transform.position = transform.position;
-                bulletList[i].transform.rotation = transform.rotation;
-                bulletList[i].SetActive(true);
-                return bulletList[i];
+                return ActivateBullet(bulletList[i], spawnPoint);
             }
         }
-        return null;
+
+        // No había ninguna libre: el pool crece
+        GameObject newBullet = CreateBullet();
+        return ActivateBullet(newBullet, spawnPoint);
+    }
+
+    private GameObject ActivateBullet(GameObject bulletObj, Transform spawnPoint)
+    {
+        bulletObj.transform.position = spawnPoint.position;
+        bulletObj.transform.rotation = spawnPoint.rotation;
+        bulletObj.SetActive(true);
+        return bulletObj;
     }
 }

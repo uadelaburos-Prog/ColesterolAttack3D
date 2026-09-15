@@ -23,18 +23,20 @@ public class Enemy : MonoBehaviour, iHealth
     {
         shopM = FindObjectOfType<ShopManager>();
         healthBar = GetComponent<HealthBar>();
+        
         currentLife = life;
     }
+
+    private void Update()
+    {
+        healthBar.UpdateHealthBar(life, currentLife);
+    }
+
     public void Die()
     {
         shopM.AddCoins(5);
-        gameObject.SetActive(false);
-        if (!isActiveAndEnabled)
-        {
-            Destroy(gameObject);
-        }
-
         OnDeath?.Invoke(this);  
+        EnemyDPool.Instance.ReturnEnemy(ID, this);
     }
 
     public int RegenHealth(int life)

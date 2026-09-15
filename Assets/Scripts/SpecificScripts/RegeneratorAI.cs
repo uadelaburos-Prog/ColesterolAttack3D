@@ -40,22 +40,31 @@ public class RegeneratorAI : MonoBehaviour
 
     private void Awake()
     {
-        SpheresListToStack();
-
         self = GetComponent<Enemy>();
+        player = GameObject.Find("Player");
     }
 
-    private void Start()
+    private void OnEnable()
     {
+        StopAllCoroutines();
+
         enemyState = EnemyStates.Idle;
-        player = GameObject.Find("Player");
+        isMooving = false;
+
+        if (self != null)
+            self.canShootHim = true;
+
+        // Reponer las esferas de regeneración al estado inicial
+        spheresStack.Clear();
+        SpheresListToStack();
+        RegenDeactiveSpheres();
     }
 
     private void Update()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position,player.transform.position);
-        float distanceFactor = Mathf.InverseLerp(minDistance,maxDistance, distanceToPlayer);
-        float actualVelocity = Mathf.Lerp(walkingSpeed, chasingSpeed,distanceFactor);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        float distanceFactor = Mathf.InverseLerp(minDistance, maxDistance, distanceToPlayer);
+        float actualVelocity = Mathf.Lerp(walkingSpeed, chasingSpeed, distanceFactor);
 
         Vector3 direction = (player.transform.position - transform.position).normalized;
         direction.y = 0;
@@ -63,7 +72,7 @@ public class RegeneratorAI : MonoBehaviour
 
         if (self.currentLife == 1 && !isMooving && !spheresStack.IsEmpty)
         {
-            StartCoroutine(Regenlife(self.currentLife, 3.5f,1.5f));
+            StartCoroutine(Regenlife(self.currentLife, 3.5f, 1.5f));
         }
 
         if (spheresStack.IsEmpty)
@@ -80,11 +89,10 @@ public class RegeneratorAI : MonoBehaviour
 
                 break;
             case EnemyStates.Chasing:
-                if(!isMooving)
+                if (!isMooving)
                     MoveTowardsPos(direction, actualVelocity);
                 break;
-        }   
-
+        }
     }
 
     private void MoveTowardsPos(Vector3 direction, float actualVelocity)
@@ -102,7 +110,7 @@ public class RegeneratorAI : MonoBehaviour
 
         ConsumeSpheres();
         self.currentLife = life += 1;
-        self.pHealtBar.UpdateHealthBar(self.Life,self.currentLife);
+        self.pHealtBar.UpdateHealthBar(self.Life, self.currentLife);
 
         yield return new WaitForSeconds(waitingTime);
 
@@ -121,10 +129,10 @@ public class RegeneratorAI : MonoBehaviour
     {
         self.canShootHim = false;
         isMooving = true;
-        enemyState = EnemyStates.Regenerating; 
+        enemyState = EnemyStates.Regenerating;
 
         yield return new WaitForSeconds(5);
-                                           
+
         SpheresListToStack();
         RegenDeactiveSpheres();
 
