@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6413925722776073780}
   - component: {fileID: 3911899050759823946}
   - component: {fileID: 3048058355196484807}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: EnemyCanvas (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4455535037852687643}
   - component: {fileID: 1343365355965204948}
   - component: {fileID: 7598226507635484208}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 3186256004060678436}
   - component: {fileID: 7297334422054746155}
   - component: {fileID: 7151483785416883958}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 3959563845249641080}
   - component: {fileID: 2580742273334767284}
   - component: {fileID: 4723072666878321460}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Enemy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -441,7 +441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1085541664270246523, guid: aa4e41693843b434cb5f889eb1e28376, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2013777068520977755, guid: aa4e41693843b434cb5f889eb1e28376, type: 3}
       propertyPath: m_LocalPosition.x
