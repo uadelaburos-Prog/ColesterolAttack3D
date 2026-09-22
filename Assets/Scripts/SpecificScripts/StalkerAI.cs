@@ -59,7 +59,7 @@ public class StalkerAI : MonoBehaviour
                 states = StalkerStates.Following; break;
             case StalkerStates.Following: 
                 states = StalkerStates.Following;
-                MoveTowardsShielder();
+                MoveTowards(MoveTowardsShielder(), actualVelocity);
                 break;
             case StalkerStates.AttackPlayer:
                 states = StalkerStates.AttackPlayer;
@@ -68,26 +68,24 @@ public class StalkerAI : MonoBehaviour
         }
     }
 
-    private void MoveTowardsShielder()
+    private Vector3 MoveTowardsShielder()
     {
-        Debug.Log("Se esta moviendo hacia el shielder");
-        RaycastHit hit;
-        Vector3 direc = new Vector3();
+        Collider[] hits = Physics.OverlapSphere(transform.position, followingShielderRadius,shielderMask);
 
-        if (Physics.SphereCast(transform.position, followingShielderRadius, transform.up, out hit, maxDistance, shielderMask))
+        currentShielder = null;
+        foreach (var col in hits)
         {
-            Shielder s = hit.collider.GetComponent<Shielder>();
-            if (s == null)
-                Debug.Log($"No se encontro el Shielder");
-            
+            currentShielder = col.GetComponent<Shielder>();
+            if(currentShielder != null) break;
         }
 
-        MoveTowards(direc, followingSpeed);
-    }
+        if(currentShielder == null)
+        {
+            Debug.Log("no se encontro al shielder");
+            return Vector3.zero;
+        }
 
-    private void MoveTowardsPlayer()
-    {
-
+        return (currentShielder.transform.position - transform.position).normalized;
     }
 
     private void MoveTowards(Vector3 direc, float velocity)
@@ -95,9 +93,9 @@ public class StalkerAI : MonoBehaviour
         transform.position += direc * velocity * Time.deltaTime;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, followingShielderRadius);
     }
 }
