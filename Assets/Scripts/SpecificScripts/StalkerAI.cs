@@ -1,9 +1,5 @@
 using Demonics;
-using System.Runtime.CompilerServices;
-using TreeEditor;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 enum StalkerStates
 {
@@ -27,13 +23,15 @@ public class StalkerAI : MonoBehaviour
     [SerializeField] private float minDistance = 5f;
     [SerializeField] private float maxDistance = 10f;
 
+    [SerializeField] private float scanInterval = 0.2f;
+    [SerializeField] private float shielderStopDistance = 2f;
+
     [SerializeField] private float nextScanTime;
 
     private GameObject player;
     private Enemy self;
-    [SerializeField] private bool isMooving = false;
 
-    private PriorityQueue<StalkerStates> desisions = new PriorityQueue<StalkerStates>();
+    private PriorityQueue<StalkerStates> desisions = new PriorityQueue<StalkerStates>(10);
 
     private Shielder currentShielder;
 
@@ -53,39 +51,88 @@ public class StalkerAI : MonoBehaviour
         direction.y = 0;
         direction.Normalize();
 
+        Vector3 shielderDir = MoveTowardsShielder();
+        states = EvaluateState(distanceToPlayer, shielderDir);
+
         switch (states)
         {
             case StalkerStates.Idle:
-                states = StalkerStates.Following; break;
+                break;
             case StalkerStates.Following: 
-                states = StalkerStates.Following;
-                MoveTowards(MoveTowardsShielder(), actualVelocity);
+                MoveTowards(shielderDir, actualVelocity);
                 break;
             case StalkerStates.AttackPlayer:
-                states = StalkerStates.AttackPlayer;
                 MoveTowards(direction,actualVelocity);
                 break;
         }
     }
 
+    private StalkerStates EvaluateState(float distanceToPlayer, Vector3 shielderDir)
+    {
+        desisions.Clear();
+
+        desisions.Enqueue(StalkerStates.Idle,3);
+
+        if (shielderDir != Vector3.zero)
+            desisions.Enqueue(StalkerStates.Following, 2);
+
+        if (distanceToPlayer <= followingPlayerRadius)
+            desisions.Enqueue(StalkerStates.AttackPlayer, 1);
+
+        return desisions.Dequeue();
+    }
+
     private Vector3 MoveTowardsShielder()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, followingShielderRadius,shielderMask);
+        if (currentShielder != null)
+        {
+            var enemyComp = currentShielder.GetComponent<Enemy>();
+            if (enemyComp == null || enemyComp.currentLife <= 0)
+                currentShielder = null;
+        }
 
-        currentShielder = null;
+        if (currentShielder == null)
+        {
+            if (Time.time < nextScanTime) return Vector3.zero;
+            nextScanTime = Time.time + scanInterval;
+
+            currentShielder = FindClosestShielder();
+
+            if (currentShielder == null)
+            {
+                Debug.Log("no se encontro al shielder");
+                return Vector3.zero;
+            }
+        }
+
+        Vector3 toShielder = currentShielder.transform.position - transform.position;
+        toShielder.y = 0f;
+
+        if (toShielder.sqrMagnitude <= shielderStopDistance * shielderStopDistance)
+            return Vector3.zero;
+
+        return toShielder.normalized;
+    }
+
+    private Shielder FindClosestShielder()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, followingShielderRadius, shielderMask);
+
+        Shielder best = null;
+        float bestSqr = float.MaxValue;
+
         foreach (var col in hits)
         {
-            currentShielder = col.GetComponent<Shielder>();
-            if(currentShielder != null) break;
-        }
+            var s = col.GetComponent<Shielder>();
+            if (s == null) continue;
 
-        if(currentShielder == null)
-        {
-            Debug.Log("no se encontro al shielder");
-            return Vector3.zero;
-        }
+            var enemyComp = s.GetComponent<Enemy>();
+            if (enemyComp == null || enemyComp.currentLife <= 0) continue;
 
-        return (currentShielder.transform.position - transform.position).normalized;
+            float sqr = (s.transform.position - transform.position).sqrMagnitude;
+            if (sqr < bestSqr) { bestSqr = sqr; best = s; }
+        }
+        return best;
     }
 
     private void MoveTowards(Vector3 direc, float velocity)

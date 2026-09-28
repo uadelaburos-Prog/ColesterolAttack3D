@@ -323,9 +323,12 @@ MonoBehaviour:
   followingSpeed: 2
   attackSpeed: 6
   followingPlayerRadius: 15
-  followingShielderRadius: 20
+  followingShielderRadius: 10
   minDistance: 5
   maxDistance: 10
+  scanInterval: 0.2
+  shielderStopDistance: 2
+  playerStopDistance: 1.5
   nextScanTime: 0.3
   isMooving: 0
 --- !u!1 &7408214968216984626

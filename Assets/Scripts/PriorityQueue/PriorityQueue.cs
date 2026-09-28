@@ -30,7 +30,7 @@ namespace Demonics
                 if (priority < priorities[i - 1])
                 {
                     items[i] = items[i - 1];
-                    priorities[i - 1] = priorities[i - 1];
+                    priorities[i] = priorities[i - 1];
                     insertIndex = i - 1;
                 }
                 else break;
@@ -79,8 +79,8 @@ namespace Demonics
 
         public void Clear()
         {
-            items = null;
-            priorities = null;
+            Array.Clear(items, 0, items.Length);
+            Array.Clear(priorities, 0, priorities.Length);
             count = 0;
         }
     }

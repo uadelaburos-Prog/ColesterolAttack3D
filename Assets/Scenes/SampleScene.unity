@@ -1833,10 +1833,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3958377719143319858, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
-      propertyPath: followingShielderRadius
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4116393609628969655, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
       propertyPath: m_Camera
       value: 
