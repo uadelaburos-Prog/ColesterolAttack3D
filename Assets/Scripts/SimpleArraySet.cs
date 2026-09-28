@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
 public class SimpleArraySet<T>: ISimpleSet<T>
 {
@@ -33,15 +35,15 @@ public class SimpleArraySet<T>: ISimpleSet<T>
         {
             internalArray[i] = originalArray[i];
         }
-        count= original.Count;
 
+        count= original.Count;
     }
+
     public SimpleArraySet()
     {
         internalArray = new T[defaultCapacity];
         count = 0;
     }
-
 
     public T[] ToArray()
     {
@@ -54,9 +56,11 @@ public class SimpleArraySet<T>: ISimpleSet<T>
     }
 
     public bool Add(T item)
-    { if (Contains(item)) return false;
+    { 
+        if (Contains(item)) return false;
 
         checkSize(count);
+        UnityEngine.Debug.Log($"{count} ; {item}");
         internalArray[count] = item;
         count++;
         return true;
@@ -69,42 +73,17 @@ public class SimpleArraySet<T>: ISimpleSet<T>
     }
     public bool Contains(T item) => IndexOf(item) >= 0;
 
-    public void Insert(int index, T item)
-    {
-
-
-
-    }
     public bool Remove(T item)
     {
-        int itemIndex= IndexOf(item);
+        int itemIndex = IndexOf(item);
         if (itemIndex < 0) return false;
 
-        if (itemIndex != count - 1) { 
-        
-        internalArray[itemIndex]=internalArray[count - 1];
-        }
-
+        if (itemIndex != count - 1)
+            internalArray[itemIndex] = internalArray[count - 1];
 
         internalArray[count - 1] = default;
 
         return true;
-
-    }
-    public void RemoveAt(int index)
-    {
-
-
-    }
-    public void RemoveRange(int index, int count)
-    {
-
-
-    }
-    public void AddRange(T[] items)
-    {
-
-
     }
 
     public ISimpleSet<T> UnionWith(ISimpleSet<T> otherSet)
@@ -152,14 +131,12 @@ public class SimpleArraySet<T>: ISimpleSet<T>
         {
             Resize(nextIndex);
         }
-
-
     }
 
     void Resize(int targetAmount)
     {   int currentLength = internalArray.Length;
 
-        while (targetAmount > currentLength )
+        while (targetAmount > currentLength - 1)
         {
             currentLength *= 2;
         }
@@ -172,21 +149,7 @@ public class SimpleArraySet<T>: ISimpleSet<T>
         }
      
         internalArray = newArray;
-
     }
-
-    void MoveElements(int index)
-    {
-        for (int i = index; i < count - 1; i++)
-        {
-            internalArray[i] = internalArray[i + 1];
-
-        }
-        internalArray[count - 1] = default(T);
-        count--;
-
-    }
-
 
     private int IndexOf(T item) { 
     
@@ -199,15 +162,5 @@ public class SimpleArraySet<T>: ISimpleSet<T>
         }
         
         return -1;
-
-
     }
-
 }
-
-    
-
-
-
-
-

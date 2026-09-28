@@ -11,6 +11,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private List<TrinketsSO> itemList = new List<TrinketsSO>();
     private Dictionary<string, TrinketsSO> itemDictionary = new Dictionary<string, TrinketsSO>();
     private HashSet<string> purchasedItems = new HashSet<string>();
+    private SimpleArraySet<string> purchasedItems2 = new SimpleArraySet<string>();
 
     [Header("Variables")]
     [SerializeField] private int coins;
@@ -32,7 +33,7 @@ public class ShopManager : MonoBehaviour
         {
             return false;
         }
-        if (purchasedItems.Contains(id))
+        if (purchasedItems2.Contains(id))
         {
             return false;
         }
@@ -42,7 +43,8 @@ public class ShopManager : MonoBehaviour
         }
 
         RemoveCoins(item.price);
-        purchasedItems.Add(id);
+        //purchasedItems.Add(id);
+        purchasedItems2.Add(id);
 
         item.ApplyEffect(playerStats);
 
@@ -53,11 +55,13 @@ public class ShopManager : MonoBehaviour
         coinsUi.text = coins.ToString();
     }
 
-    public bool WasPurchased(string id) => purchasedItems.Contains(id);
+    //public bool WasPurchased(string id) => purchasedItems.Contains(id);
+    public bool WasPurchased2(string id) => purchasedItems2.Contains(id);
 
     public void ClearPurchasedItems()
     {
-        purchasedItems.Clear();
+        //purchasedItems.Clear();
+        purchasedItems2.Clear();
     }
 
     public void AddCoins(int amount)
