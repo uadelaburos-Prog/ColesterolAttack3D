@@ -60,7 +60,6 @@ public class SimpleArraySet<T>: ISimpleSet<T>
         if (Contains(item)) return false;
 
         checkSize(count);
-        UnityEngine.Debug.Log($"{count} ; {item}");
         internalArray[count] = item;
         count++;
         return true;
