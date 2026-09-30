@@ -4,12 +4,14 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Demonics;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
 
     [SerializeField] private List<TrinketsSO> itemList = new List<TrinketsSO>();
-    private Dictionary<string, TrinketsSO> itemDictionary = new Dictionary<string, TrinketsSO>();
+    //private Dictionary<string, TrinketsSO> itemDictionary = new Dictionary<string, TrinketsSO>();
+    private SimpleDictionary<string, TrinketsSO> itemDictionary2 = new SimpleDictionary<string, TrinketsSO>();
     //private HashSet<string> purchasedItems = new HashSet<string>();
     private SimpleArraySet<string> purchasedItems2 = new SimpleArraySet<string>(); 
 
@@ -21,7 +23,7 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < itemList.Count; i++)
         {
-            itemDictionary.Add(itemList[i].ItemID, itemList[i]);
+            itemDictionary2.Add(itemList[i].ItemID, itemList[i]);
         }
 
         UpdateCoinsUI();
@@ -29,7 +31,7 @@ public class ShopManager : MonoBehaviour
 
     public bool TryToPurchItem(string id)
     {
-        if (!itemDictionary.TryGetValue(id, out TrinketsSO item))
+        if (!itemDictionary2.TryGetValue(id, out TrinketsSO item))
         {
             return false;
         }
