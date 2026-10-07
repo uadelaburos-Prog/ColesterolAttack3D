@@ -11,7 +11,7 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private List<TrinketsSO> itemList = new List<TrinketsSO>();
     //private Dictionary<string, TrinketsSO> itemDictionary = new Dictionary<string, TrinketsSO>();
-    private SimpleDictionary<string, TrinketsSO> itemDictionary2 = new SimpleDictionary<string, TrinketsSO>();
+    private SimpleArrayDictionary<string, TrinketsSO> itemDictionary2 = new SimpleArrayDictionary<string, TrinketsSO>();
     //private HashSet<string> purchasedItems = new HashSet<string>();
     private SimpleArraySet<string> purchasedItems2 = new SimpleArraySet<string>(); 
 

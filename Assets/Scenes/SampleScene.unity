@@ -255,6 +255,7 @@ GameObject:
   - component: {fileID: 67778049}
   - component: {fileID: 67778051}
   - component: {fileID: 67778050}
+  - component: {fileID: 67778052}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -456,6 +457,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSwitcher
   pistol: {fileID: 1923418955}
   melee: {fileID: 1167194227}
+--- !u!114 &67778052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67778042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83886d5d396575c428a347b725983e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinsManager
+  amounts: 05000000140000000f0000000a000000
 --- !u!1 &92964123
 GameObject:
   m_ObjectHideFlags: 0

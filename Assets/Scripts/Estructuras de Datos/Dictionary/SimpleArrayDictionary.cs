@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Demonics
 {
-    public class SimpleDictionary<Tkey, Tvalue> : ISimpleDictionary<Tkey, Tvalue>
+    public class SimpleArrayDictionary<Tkey, Tvalue> : ISimpleDictionary<Tkey, Tvalue>
     {
         KeyValuePair<Tkey, Tvalue>[] internalArray;
 
@@ -14,7 +14,7 @@ namespace Demonics
 
         int count = 0;
 
-        public SimpleDictionary() => internalArray = new KeyValuePair<Tkey, Tvalue>[defaultCapacity];
+        public SimpleArrayDictionary() => internalArray = new KeyValuePair<Tkey, Tvalue>[defaultCapacity];
 
         public Tvalue this[Tkey key]
         {
