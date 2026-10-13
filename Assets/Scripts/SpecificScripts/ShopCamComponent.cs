@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShopCamComponent : MonoBehaviour
 {
     [SerializeField] private LayerMask items;
     [SerializeField] private ShopManager shopManager;
+    [SerializeField] private StatOrdener StatsOrder;
     private void Update()
     {
         Ray ray = new Ray(transform.position, transform.forward);
@@ -27,6 +25,7 @@ public class ShopCamComponent : MonoBehaviour
                 {
                     Debug.Log($"Se compro el item {ID}");
                     hitObject.SetActive(false);
+                    StatsOrder.ShowStats();
                 }
                 else
                     Debug.Log($"No se pudo comprar {ID} (sin fondos?)");
