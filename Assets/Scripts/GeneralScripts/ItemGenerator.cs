@@ -1,7 +1,9 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ED262C;
+using System.Linq;
+using UnityEditor.ShaderKeywordFilter;
 
 public class ItemGenerator : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class ItemGenerator : MonoBehaviour
     private List<GameObject> spawnItems = new List<GameObject>();
     [SerializeField] private GameObject prefab;
     [SerializeField] private Transform[] itemsPos;
+
+    private AVL<TrinketsSO> AVLItems = new AVL<TrinketsSO>();
 
     private void Awake()
     {
@@ -20,30 +24,33 @@ public class ItemGenerator : MonoBehaviour
     {
         ClearPrevItems();
 
-        int count = Mathf.Min(itemsToGenerate, itemsList.Count);
+        Transform[] sortedPos = itemsPos.OrderBy(t => t.transform.position.x).ToArray();
 
-        for (int i = 0; i < count; i++)
+        int count = Mathf.Min(itemsToGenerate, AVLItems.Count);
+        int i = 0;
+
+        foreach(TrinketsSO item in AVLItems.InOrder())
         {
-            TrinketsSO item = itemsList[i];
-            Vector3 itemP = itemsPos[i % itemsPos.Length].position;
+            if (i > count) break;
+
+            Vector3 itemP = sortedPos[i % sortedPos.Length].position;
             GameObject go = Instantiate(prefab, itemP, Quaternion.identity);
             ItemSourceData instance = go.GetComponent<ItemSourceData>();
 
-            if (instance == null)
+            if(instance == null)
             {
                 instance = go.AddComponent<ItemSourceData>();
             }
 
             instance.SetData(item);
             spawnItems.Add(go);
+            i++;
         }
-
-        Debug.Log("Se generaron todos los items");
     }
 
     private void ClearPrevItems()
     {
-        foreach(var go in spawnItems)
+        foreach (var go in spawnItems)
         {
             if (go != null) Destroy(go);
         }

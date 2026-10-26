@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private PlayerController player;
     public PlayerController Player { get; private set; }
 
+    private bool escPressed = false;
+
     void Awake()
     {
         if(instance == null) { instance = this; }
@@ -28,7 +30,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            escPressed = !escPressed;
+            Time.timeScale = escPressed ? 1.0f : 0.0f;
+        }
     }
 
     public void RegisterPlayer(PlayerController p)

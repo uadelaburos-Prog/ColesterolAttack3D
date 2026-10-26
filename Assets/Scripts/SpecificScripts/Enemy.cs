@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour, iHealth
     [SerializeField] private HealthBar healthBar;
 
     private ShopManager shopM;
+    private DamageFlash flash;
     public bool Dmg = false;
     public string ID;
     public event Action<Enemy> OnDeath;
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour, iHealth
     {
         shopM = FindObjectOfType<ShopManager>();
         healthBar = GetComponent<HealthBar>();
+        flash = GetComponent<DamageFlash>();
         
         currentLife = life;
     }
@@ -58,6 +60,7 @@ public class Enemy : MonoBehaviour, iHealth
             {
                 currentLife--;
                 healthBar.UpdateHealthBar(life, currentLife);
+                flash.StartFlash();
 
                 if (currentLife <= 0)
                 {

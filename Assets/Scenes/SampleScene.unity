@@ -904,8 +904,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7460346430355932732, guid: 5bfb41605bc3ff543a2fab54d9ff2140, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 363377825}
   m_SourcePrefab: {fileID: 100100000, guid: 5bfb41605bc3ff543a2fab54d9ff2140, type: 3}
+--- !u!1 &363377824 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7460346430355932732, guid: 5bfb41605bc3ff543a2fab54d9ff2140, type: 3}
+  m_PrefabInstance: {fileID: 363377823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &363377825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363377824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e246519dfc72c5e438691052f8832028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
+  flashTime: 0.15
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,8 +1923,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4940664785009310236, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 1082038402}
   m_SourcePrefab: {fileID: 100100000, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+--- !u!1 &1082038401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4940664785009310236, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+  m_PrefabInstance: {fileID: 1082038400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1082038402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082038401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e246519dfc72c5e438691052f8832028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
+  flashTime: 0.15
 --- !u!1 &1167194224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 19ff03d2cfcdb504c9c5bda854017b57, type: 3}
@@ -2648,8 +2690,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7389919446789316794, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8345139731456472876}
   m_SourcePrefab: {fileID: 100100000, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+--- !u!1 &8345139731456472875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7389919446789316794, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+  m_PrefabInstance: {fileID: 8345139731456472874}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8345139731456472876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8345139731456472875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e246519dfc72c5e438691052f8832028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
+  flashTime: 0.15
 --- !u!23 &8846664030521686469
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -217,5 +217,11 @@ namespace ED262C
             // Devolvemos el array completo
             return result;
         }
+
+        public SimpleArrayList(int initialCapacity)
+        {
+            internalArray = new T[Math.Max(initialCapacity, 1)];
+
+        }
     }
 }

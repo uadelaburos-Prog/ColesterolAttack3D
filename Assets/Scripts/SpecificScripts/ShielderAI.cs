@@ -20,6 +20,7 @@ public class Shielder : MonoBehaviour
 
     [SerializeField] private GameObject shield;
     [SerializeField] private float shieldLife = 6;
+    private DamageFlash flash;
     private float initialShieldLife;
     private bool shieldReciveDmg;
 
@@ -30,6 +31,7 @@ public class Shielder : MonoBehaviour
     private void Awake()
     {
         self = GetComponent<Enemy>();
+        flash = GetComponent<DamageFlash>();
         initialShieldLife = shieldLife;
         player = GameObject.Find("Player");
     }
@@ -102,6 +104,7 @@ public class Shielder : MonoBehaviour
         if (shieldReciveDmg)
         {
             shieldLife -= 1;
+            flash.StartFlash();
         }
         else
             reciveDmg = false;
