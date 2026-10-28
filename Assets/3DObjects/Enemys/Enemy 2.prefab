@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 7943811269754492755}
   - component: {fileID: 1503014070856357093}
   - component: {fileID: 4491038509925836023}
+  - component: {fileID: 7808130904643342923}
   - component: {fileID: 3958377719143319858}
   m_Layer: 7
   m_Name: Enemy 2
@@ -302,6 +303,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
   healthBar: {fileID: 2626824783640175806}
   reduceSpeed: 2
+--- !u!114 &7808130904643342923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940664785009310236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e246519dfc72c5e438691052f8832028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
+  flashTime: 0.15
 --- !u!114 &3958377719143319858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,9 +342,7 @@ MonoBehaviour:
   maxDistance: 10
   scanInterval: 0.2
   shielderStopDistance: 2
-  playerStopDistance: 1.5
   nextScanTime: 0.3
-  isMooving: 0
 --- !u!1 &7408214968216984626
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,28 +16,33 @@ public class MeleeScript : MonoBehaviour, IWeapon
 
     private void Update()
     { 
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radio, transform.right * -1, maxDistance, enemy);
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canSwing)
-        {
-            foreach (var hit in hits)
-            {
-                RegeneratorAI regen = hit.collider.GetComponent<RegeneratorAI>();
-                if(regen != null && regen.IsRegenerating)
-                {
-                    regen.MeleeExecute();
-                    continue;
-                }
+        if(!Input.GetKeyDown(KeyCode.Mouse0) || !canSwing) return;
 
-                Enemy e = hit.collider.gameObject.GetComponent<Enemy>();
-                Shielder s = hit.collider.gameObject.GetComponent<Shielder>();
-                if(e != null)
-                    e.ReciveDmg(true);
-                if(s != null)
-                    s.ShieldDmg(true);
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, radio, -transform.right, maxDistance, enemy);
+        var alreadyHit = new HashSet<GameObject>();
+
+        foreach(var hit in hits)
+        {
+            GameObject target = hit.collider.attachedRigidbody != null ? 
+                hit.collider.attachedRigidbody.gameObject :
+                hit.collider.transform.root.gameObject;
+
+            if(!alreadyHit.Add(target)) continue;
+
+            RegeneratorAI regen = target.GetComponentInChildren<RegeneratorAI>();
+            if(regen != null && regen.IsRegenerating)
+            {
+                regen.MeleeExecute();
+                continue;
             }
 
-            StartCoroutine(CoolDownMelee());
+            Enemy e = target.GetComponentInChildren<Enemy>();
+            Shielder s = target.GetComponentInChildren<Shielder>();
+            if (e != null) e.ReciveDmg(true);
+            if(s != null) s.ShieldDmg(true);
         }
+
+        StartCoroutine(CoolDownMelee());
     }
 
     private IEnumerator CoolDownMelee()

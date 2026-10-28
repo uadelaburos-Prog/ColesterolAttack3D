@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 3959563845249641080}
   - component: {fileID: 2580742273334767284}
   - component: {fileID: 4723072666878321460}
+  - component: {fileID: 8828380653139811012}
   m_Layer: 8
   m_Name: Enemy 1
   m_TagString: Untagged
@@ -427,6 +428,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
   healthBar: {fileID: 7151483785416883958}
   reduceSpeed: 2
+--- !u!114 &8828380653139811012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7389919446789316794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e246519dfc72c5e438691052f8832028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
+  flashTime: 0.15
 --- !u!1001 &2806257580708574275
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,7 +31,7 @@ public class BST<T> where T : IComparable
             current.Left = InsertRecursive(current.Left, value);
         }
 
-        if (comparison < 0)
+        if (comparison > 0)
         {
             current.Right = InsertRecursive(current.Right, value);
         }
@@ -73,7 +73,7 @@ public class BST<T> where T : IComparable
             current.Left = InsertRecursive(current.Left, value);
         }
 
-        if (comparison < 0)
+        if (comparison > 0)
         {
             current.Right = InsertRecursive(current.Right, value);
         }

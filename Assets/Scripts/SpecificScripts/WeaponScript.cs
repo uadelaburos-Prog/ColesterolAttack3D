@@ -6,9 +6,9 @@ public class WeaponScript : MonoBehaviour, IWeapon
 {
     [SerializeField] private Transform shootPoint;
     [SerializeField] private LineRenderer line;
+    [SerializeField] private LayerMask enemy;
     private float range = 20f;
     public bool canShoot = true;
-
     public string Name => "Pistol";
 
     private void Start()
@@ -18,33 +18,25 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
     private void Update()
     {
-        Ray ray = new Ray(shootPoint.position, shootPoint.forward);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, range))
-        {
-            line.SetPosition(0, shootPoint.position);
-            line.SetPosition(1, hit.point);
+        Vector3 origin = shootPoint.position;
+        Vector3 dir = shootPoint.forward;
 
-            if (Input.GetKey(KeyCode.Mouse0) && canShoot)
-            {
-                Enemy e = hit.collider.gameObject.GetComponent<Enemy>();
-                Shielder s = hit.collider.gameObject.GetComponent<Shielder>();
-                if (e == null) return;
+        bool didHit = Physics.Raycast(origin, dir, out RaycastHit hit, range, enemy);
 
-                SetLineColor(Color.red);
-                e.ReciveDmg(true);
-                s?.ShieldDmg(true);
-                StartCoroutine(CoolDownWeapon());
-            }
-            else 
-                SetLineColor(Color.white);
-        }
-        else
-        {
-            line.SetPosition(0, shootPoint.position);
-            line.SetPosition(1, shootPoint.position + shootPoint.forward * range);
-            SetLineColor(Color.grey);
-        }
+        line.SetPosition(0, origin);
+        line.SetPosition(1, didHit ? hit.point : origin + dir * range);
+
+        if (!didHit) { SetLineColor(Color.grey); return; }
+
+        Enemy e = hit.collider.GetComponentInParent<Enemy>();
+        bool shooting = Input.GetKeyDown(KeyCode.Mouse0) && canShoot;
+
+        if (e == null || !shooting) { SetLineColor(Color.white); return; }
+
+        SetLineColor(Color.red);
+        e.ReciveDmg(true);
+        hit.collider.GetComponentInParent<Shielder>()?.ShieldDmg(true);
+        StartCoroutine(CoolDownWeapon());
     }
 
     private IEnumerator CoolDownWeapon()

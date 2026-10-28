@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour, iHealth
     [SerializeField] private int damage = 1;
     [SerializeField] private HealthBar healthBar;
 
+    private MeshRenderer mr;
+    private Color orgColor;
+
     private ShopManager shopM;
     private DamageFlash flash;
     public bool Dmg = false;
@@ -25,7 +28,12 @@ public class Enemy : MonoBehaviour, iHealth
         shopM = FindObjectOfType<ShopManager>();
         healthBar = GetComponent<HealthBar>();
         flash = GetComponent<DamageFlash>();
+        mr = GetComponent<MeshRenderer>();
         
+        orgColor = mr.material.color;
+
+        mr.material.color = orgColor;
+
         currentLife = life;
     }
 

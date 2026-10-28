@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using ED262C;
 using System.Linq;
-using UnityEditor.ShaderKeywordFilter;
 
 public class ItemGenerator : MonoBehaviour
 {
@@ -13,10 +10,16 @@ public class ItemGenerator : MonoBehaviour
     [SerializeField] private GameObject prefab;
     [SerializeField] private Transform[] itemsPos;
 
-    private AVL<TrinketsSO> AVLItems = new AVL<TrinketsSO>();
+    [SerializeField] private AVL<TrinketsSO> AVLItems = new AVL<TrinketsSO>();
 
     private void Awake()
     {
+        foreach(TrinketsSO t in itemsList)
+        {
+            if (t != null)
+                AVLItems.Insert(t);
+        }
+
         GenerateItems();
     }
 
@@ -31,8 +34,8 @@ public class ItemGenerator : MonoBehaviour
 
         foreach(TrinketsSO item in AVLItems.InOrder())
         {
-            if (i > count) break;
-
+            if (i >= count) break;
+            Debug.Log($"lista: {itemsList.Count} | AVL.Count: {AVLItems.Count} | toGenerate: {itemsToGenerate} | pos: {sortedPos.Length} | count: {count}");
             Vector3 itemP = sortedPos[i % sortedPos.Length].position;
             GameObject go = Instantiate(prefab, itemP, Quaternion.identity);
             ItemSourceData instance = go.GetComponent<ItemSourceData>();
