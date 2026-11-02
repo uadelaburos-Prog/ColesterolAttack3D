@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,12 +9,27 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform cameraPlayer;
 
+    [SerializeField] private int maxLife = 3;
+    [SerializeField] private int currentLife;
+
+    [Header("PlayerDie")]
+    [SerializeField] private GameObject playerCanvas;
+    private bool itDie;
+
     private CharacterController controller;
+    private float _gravity = 9.81f;
+    [SerializeField] private float gravityMult;
+    private float velocity;
+    private Vector3 diretion;
+
+    private Rigidbody rb;
 
     public PlayerStats Stats => stats;
 
     private void Awake()
     {
+        currentLife = maxLife;
+
         controller = GetComponent<CharacterController>();
 
         stats = FindAnyObjectByType<PlayerStats>();
@@ -22,11 +38,14 @@ public class PlayerController : MonoBehaviour
         {
             cameraPlayer = Camera.main.transform;
         }  
+
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
     {
         GameManager.Instance.RegisterPlayer(this);
+        playerCanvas.SetActive(false);
     }
 
     void Update()
@@ -44,13 +63,46 @@ public class PlayerController : MonoBehaviour
         fowardCamera.Normalize();
         rightCamera.Normalize();
 
-        Vector3 direction = (rightCamera * xMove + fowardCamera * yMove);
+        diretion = (rightCamera * xMove + fowardCamera * yMove);
 
-        if(direction.sqrMagnitude > 0.0001f) 
-            direction.Normalize();
+        if(diretion.sqrMagnitude > 0.0001f)
+            diretion.Normalize();
 
-        Vector3 movement = direction * (stats.playerSpeed * Time.deltaTime);
+        Vector3 movement = diretion * (stats.playerSpeed * Time.deltaTime);
 
         controller.Move(movement);
+
+        //vida
+        if (currentLife <= 0f)
+        {
+            StartCoroutine(playerDies());
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (controller.isGrounded && velocity < 0.0f) 
+        {
+            velocity = -1.0f;
+        }
+        else
+        {
+            velocity += _gravity * gravityMult * Time.fixedDeltaTime;
+            diretion.y = velocity;
+        }
+    }
+
+    public void Life(int damage)
+    {
+        currentLife -= damage;
+    }
+
+    private IEnumerator playerDies()
+    {
+        Time.timeScale = 0f;
+        playerCanvas.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        yield return new WaitForSeconds(0.1f);
+        Debug.Log("Se murio");
     }
 }

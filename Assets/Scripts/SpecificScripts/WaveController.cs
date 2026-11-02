@@ -12,7 +12,7 @@ public class WaveController : MonoBehaviour
 
     [SerializeField] private string[] names;
     [SerializeField] private int enemysAmount = 5;
-    [SerializeField] private int waveCount = 1;
+    [SerializeField] public int waveCount = 1;
 
     [SerializeField] private Vector2 spawnAreaSize = new Vector2(10f, 10f);
     [SerializeField] private Transform spawnCenter;

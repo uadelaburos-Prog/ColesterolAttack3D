@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour, iHealth
     public int currentLife;
     [SerializeField] private int damage = 1;
     [SerializeField] private HealthBar healthBar;
+    [SerializeField] private PlayerController playerController;
 
     private MeshRenderer mr;
     private Color orgColor;
@@ -35,6 +36,9 @@ public class Enemy : MonoBehaviour, iHealth
         mr.material.color = orgColor;
 
         currentLife = life;
+
+        if (playerController == null)
+            playerController = FindObjectOfType<PlayerController>();
     }
 
     private void Update()
@@ -55,9 +59,9 @@ public class Enemy : MonoBehaviour, iHealth
         return life;
     }
 
-    public void DoDmg(int damage)
+    public void DoDmg()
     {
-        
+        playerController.Life(damage);
     }
 
     public void ReciveDmg(bool dmg)
@@ -76,5 +80,13 @@ public class Enemy : MonoBehaviour, iHealth
                 }
             }
         } 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            DoDmg();
+        }
     }
 }

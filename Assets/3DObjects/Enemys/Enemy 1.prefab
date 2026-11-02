@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 2580742273334767284}
   - component: {fileID: 4723072666878321460}
   - component: {fileID: 8828380653139811012}
+  - component: {fileID: 2984997978387384817}
   m_Layer: 8
   m_Name: Enemy 1
   m_TagString: Untagged
@@ -366,7 +367,7 @@ CapsuleCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -389,6 +390,7 @@ MonoBehaviour:
   currentLife: 0
   damage: 1
   healthBar: {fileID: 4723072666878321460}
+  playerController: {fileID: 0}
   Dmg: 0
   ID: Heavy
   canShootHim: 1
@@ -441,6 +443,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
   flashTime: 0.15
+--- !u!54 &2984997978387384817
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7389919446789316794}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!1001 &2806257580708574275
 PrefabInstance:
   m_ObjectHideFlags: 0

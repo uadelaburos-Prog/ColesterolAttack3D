@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 4491038509925836023}
   - component: {fileID: 7808130904643342923}
   - component: {fileID: 3958377719143319858}
+  - component: {fileID: 7286599303369483709}
   m_Layer: 7
   m_Name: Enemy 2
   m_TagString: Untagged
@@ -263,7 +264,7 @@ CapsuleCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -286,6 +287,7 @@ MonoBehaviour:
   currentLife: 0
   damage: 1
   healthBar: {fileID: 4491038509925836023}
+  playerController: {fileID: 0}
   Dmg: 0
   ID: Light
   canShootHim: 1
@@ -343,6 +345,33 @@ MonoBehaviour:
   scanInterval: 0.2
   shielderStopDistance: 2
   nextScanTime: 0.3
+--- !u!54 &7286599303369483709
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940664785009310236}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!1 &7408214968216984626
 GameObject:
   m_ObjectHideFlags: 0
