@@ -37,15 +37,19 @@ namespace Demonics
 
         public bool AddVertex(T Vertex)
         {
-            //if(ContainsVertex(Vertex)) return false;
-            //adjacentList.Add(Vertex, new SimpleArrayList<Edge<T>>());
-            //return true;
             return adjacentList.TryAdd(Vertex, new SimpleArrayList<Edge<T>>());
         }
 
         public bool RemoveEdge(T from, T to)
         {
-            throw new NotImplementedException();
+            if(!ContainsVertex(from)) return false;
+
+            Edge<T> edge = GetEdge(from, to);
+
+            if(edge == null) return false;
+
+            adjacentList[from].Remove(edge);
+            return true;
         }
 
         public bool RemoveVertex(T Vertex)
@@ -55,12 +59,10 @@ namespace Demonics
             for(int i = 0; i < Vertices.Length; i++)
             {
                 if (Vertices[i].Equals(Vertex)) continue;
-                Edge<T> targetEdge = GetEdge(Vertices[i], Vertex);
 
-                // pa la siguiente clase
-                //if(targetEdge != null) return true;
+                RemoveEdge(Vertices[i], Vertex);
             }
-
+            
             return adjacentList.Remove(Vertex);
         }
 
