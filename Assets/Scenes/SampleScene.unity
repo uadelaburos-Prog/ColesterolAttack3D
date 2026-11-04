@@ -1849,7 +1849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 724866786}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ItemObjective (5)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -2279,6 +2279,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDPool
   _factory: {fileID: 565422535}
   _waveController: {fileID: 808182980}
+--- !u!1 &883218763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883218765}
+  - component: {fileID: 883218764}
+  m_Layer: 0
+  m_Name: WaypointGraph
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &883218764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883218763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886dfb8a3f57ef742bcec46fcc797633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaypointGraph
+  columns: 150
+  rows: 150
+  spacing: 2
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!4 &883218765
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883218763}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -202.83649, y: 3.2, z: -175.27132}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &937480649
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,7 +2506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 960489022}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ItemObjective (7)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -2759,6 +2809,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4b1ccaefec207f84cb51f398569d04c3, type: 3}
       propertyPath: m_Name
       value: puesto
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4b1ccaefec207f84cb51f398569d04c3, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3355,7 +3409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1413096347}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ItemObjective (8)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -4435,7 +4489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2136843886}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ItemObjective (6)
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -4784,3 +4838,4 @@ SceneRoots:
   - {fileID: 1810616491}
   - {fileID: 1010574892}
   - {fileID: 636164079681134725}
+  - {fileID: 883218765}

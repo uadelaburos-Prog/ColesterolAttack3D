@@ -32,6 +32,9 @@ namespace Demonics
 
                     if (totalCost < result[neighbors[i].to].cost)
                         result[neighbors[i].to].cost = totalCost;
+
+                    if (!visited.Contains(neighbors[i].to))
+                        unvisited.Enqueue(neighbors[i].to, totalCost);
                 }
 
                 visited.Add(current);
@@ -71,6 +74,9 @@ namespace Demonics
 
                     if (totalCost < table[neighbors[i].to].cost)
                         table[neighbors[i].to].cost = totalCost;
+
+                    if (!visited.Contains(neighbors[i].to))
+                        unvisited.Enqueue(neighbors[i].to, totalCost);
                 }
 
                 visited.Add(current);
