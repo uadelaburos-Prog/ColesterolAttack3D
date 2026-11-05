@@ -23,6 +23,7 @@ public class RegeneratorAI : MonoBehaviour
     [SerializeField] private float minDistance = 5f;
     [SerializeField] private float maxDistance = 15f;
 
+    [SerializeField] private AStarMovement aStarMovement;
     private GameObject player;
     private Enemy self;
     [SerializeField] private bool isMooving = false;
@@ -58,6 +59,9 @@ public class RegeneratorAI : MonoBehaviour
         spheresStack.Clear();
         SpheresListToStack();
         RegenDeactiveSpheres();
+
+        //Astar Movement
+        if (aStarMovement != null) aStarMovement.ResetPath();
     }
 
     private void Update()
@@ -90,14 +94,10 @@ public class RegeneratorAI : MonoBehaviour
                 break;
             case EnemyStates.Chasing:
                 if (!isMooving)
-                    MoveTowardsPos(direction, actualVelocity);
+                    aStarMovement.FollowPath(direction,actualVelocity);
+                    //MoveTowardsPos(direction, actualVelocity);
                 break;
         }
-    }
-
-    private void MoveTowardsPos(Vector3 direction, float actualVelocity)
-    {
-        transform.position += direction * actualVelocity * Time.deltaTime;
     }
 
     private IEnumerator Regenlife(int life, float waitingTime, float secWaitingTime)
