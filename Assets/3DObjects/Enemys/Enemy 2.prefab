@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 7808130904643342923}
   - component: {fileID: 3958377719143319858}
   - component: {fileID: 7286599303369483709}
+  - component: {fileID: 4287250878927853686}
   m_Layer: 7
   m_Name: Enemy 2
   m_TagString: Untagged
@@ -345,6 +346,7 @@ MonoBehaviour:
   scanInterval: 0.2
   shielderStopDistance: 2
   nextScanTime: 0.3
+  aStarMovement: {fileID: 4287250878927853686}
 --- !u!54 &7286599303369483709
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -372,6 +374,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &4287250878927853686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4940664785009310236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d037e8090cee9941904dcdeb8fab9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AStarMovement
+  playerPosition: {fileID: 0}
 --- !u!1 &7408214968216984626
 GameObject:
   m_ObjectHideFlags: 0
