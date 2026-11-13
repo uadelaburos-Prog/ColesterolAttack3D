@@ -2307,9 +2307,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886dfb8a3f57ef742bcec46fcc797633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaypointGraph
-  columns: 100
-  rows: 100
-  spacing: 2
+  columns: 40
+  rows: 40
+  spacing: 1.5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -2891,6 +2891,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b1ccaefec207f84cb51f398569d04c3, type: 3}
   m_PrefabInstance: {fileID: 1010574892}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1057607255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4940664785009310236, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+  m_PrefabInstance: {fileID: 1082038400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1057607265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057607255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d037e8090cee9941904dcdeb8fab9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AStarMovement
+  playerPosition: {fileID: 67778046}
 --- !u!1 &1078793306
 GameObject:
   m_ObjectHideFlags: 0
@@ -3018,6 +3036,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3958377719143319858, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+      propertyPath: aStarMovement
+      value: 
+      objectReference: {fileID: 1057607265}
     - target: {fileID: 4116393609628969655, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
       propertyPath: m_Camera
       value: 
@@ -3029,7 +3051,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4940664785009310236, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1057607265}
   m_SourcePrefab: {fileID: 100100000, guid: 6913367309d0c6c4db65b55b7c6508af, type: 3}
 --- !u!1 &1090739409
 GameObject:
@@ -3266,6 +3291,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180744319}
   m_CullTransparentMesh: 1
+--- !u!1 &1287798861 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7389919446789316794, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+  m_PrefabInstance: {fileID: 8345139731456472874}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1287798871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287798861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d037e8090cee9941904dcdeb8fab9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AStarMovement
+  playerPosition: {fileID: 67778046}
 --- !u!1 &1390656877
 GameObject:
   m_ObjectHideFlags: 0
@@ -4754,6 +4797,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2580742273334767284, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+      propertyPath: aStarMovement
+      value: 
+      objectReference: {fileID: 1287798871}
     - target: {fileID: 3959563845249641080, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
       propertyPath: playerController
       value: 
@@ -4765,7 +4812,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7389919446789316794, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287798871}
   m_SourcePrefab: {fileID: 100100000, guid: a3c388d9581bc154d9bafd66a424efc3, type: 3}
 --- !u!23 &8846664030521686469
 MeshRenderer:

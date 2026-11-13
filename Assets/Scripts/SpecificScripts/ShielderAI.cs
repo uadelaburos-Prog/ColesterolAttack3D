@@ -24,6 +24,8 @@ public class Shielder : MonoBehaviour
     private float initialShieldLife;
     private bool shieldReciveDmg;
 
+    [SerializeField] private AStarMovement aStarMovement;
+
     private GameObject player;
     private Enemy self;
     [SerializeField] private bool isMooving = false;
@@ -49,6 +51,8 @@ public class Shielder : MonoBehaviour
 
         if (self != null)
             self.canShootHim = false;
+
+        if (aStarMovement != null) aStarMovement.ResetPath();
     }
 
     private void Update()
@@ -70,10 +74,12 @@ public class Shielder : MonoBehaviour
         {
             case ShielderStates.Chasing:
                 if (!isMooving)
-                    MoveTowardsPlayer(direction, actualVelocity);
+                    //MoveTowardsPlayer(direction, actualVelocity);
+                    aStarMovement.FollowPath(direction, actualVelocity);
                 break;
             case ShielderStates.Agro:
-                MoveTowardsPlayer(direction, agroSpeed);
+                //MoveTowardsPlayer(direction, agroSpeed);
+                aStarMovement.FollowPath(direction, agroSpeed);
                 break;
             case ShielderStates.ShieldDown:
                 break;
@@ -93,10 +99,10 @@ public class Shielder : MonoBehaviour
         shielderStates = ShielderStates.Agro;
     }
 
-    private void MoveTowardsPlayer(Vector3 direction, float actualVelocity)
-    {
-        transform.position += direction * actualVelocity * Time.deltaTime;
-    }
+    //private void MoveTowardsPlayer(Vector3 direction, float actualVelocity)
+    //{
+    //    transform.position += direction * actualVelocity * Time.deltaTime;
+    //}
 
     public void ShieldDmg(bool reciveDmg)
     {

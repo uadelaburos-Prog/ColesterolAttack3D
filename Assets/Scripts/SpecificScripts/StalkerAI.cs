@@ -28,6 +28,8 @@ public class StalkerAI : MonoBehaviour
 
     [SerializeField] private float nextScanTime;
 
+    [SerializeField] private AStarMovement aStarMovement;
+
     private GameObject player;
     private Enemy self;
 
@@ -39,6 +41,19 @@ public class StalkerAI : MonoBehaviour
     {
         self = GetComponent<Enemy>();
         player = GameObject.Find("Player");
+    }
+
+    private void OnEnable()
+    {
+        StopAllCoroutines();
+
+        states = StalkerStates.Idle;
+
+        if (self != null)
+            self.canShootHim = true;
+
+        //Astar Movement
+        if (aStarMovement != null) aStarMovement.ResetPath();
     }
 
     private void Update()
@@ -58,11 +73,13 @@ public class StalkerAI : MonoBehaviour
         {
             case StalkerStates.Idle:
                 break;
-            case StalkerStates.Following: 
-                MoveTowards(shielderDir, actualVelocity);
+            case StalkerStates.Following:
+                //MoveTowards(shielderDir, actualVelocity);
+                aStarMovement.FollowPath(shielderDir, actualVelocity);
                 break;
             case StalkerStates.AttackPlayer:
-                MoveTowards(direction,actualVelocity);
+                //MoveTowards(direction,actualVelocity);
+                aStarMovement.FollowPath(direction, actualVelocity);
                 break;
         }
     }
@@ -99,10 +116,7 @@ public class StalkerAI : MonoBehaviour
             currentShielder = FindClosestShielder();
 
             if (currentShielder == null)
-            {
-                Debug.Log("no se encontro al shielder");
                 return Vector3.zero;
-            }
         }
 
         Vector3 toShielder = currentShielder.transform.position - transform.position;
@@ -133,11 +147,6 @@ public class StalkerAI : MonoBehaviour
             if (sqr < bestSqr) { bestSqr = sqr; best = s; }
         }
         return best;
-    }
-
-    private void MoveTowards(Vector3 direc, float velocity)
-    {
-        transform.position += direc * velocity * Time.deltaTime;
     }
 
     private void OnDrawGizmosSelected()
