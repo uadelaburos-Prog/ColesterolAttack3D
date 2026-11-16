@@ -1,26 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageFlash : MonoBehaviour
 {
-    private MeshRenderer mR;
-    private Color origColor;
     [SerializeField] private float flashTime = 0.15f;
 
-    private void OnEnable()
+    private MeshRenderer mR;
+    private Color origColor;
+    private bool colorSaved;
+    private Coroutine flashRoutine;
+
+    private void Awake()
     {
         mR = GetComponent<MeshRenderer>();
+        if (mR != null)
+        {
+            origColor = mR.material.color;
+            colorSaved = true;
+        }
     }
 
-    private void Start()
+    private void OnDisable()
     {
-        origColor = mR.material.color;
+        flashRoutine = null;
+        if (mR != null && colorSaved) mR.material.color = origColor;
     }
 
     public void StartFlash()
     {
-        StartCoroutine(Flash());
+        if (mR == null || !isActiveAndEnabled) return;
+
+        if (flashRoutine != null) StopCoroutine(flashRoutine);
+        flashRoutine = StartCoroutine(Flash());
     }
 
     private IEnumerator Flash()
@@ -28,5 +39,6 @@ public class DamageFlash : MonoBehaviour
         mR.material.color = Color.white;
         yield return new WaitForSeconds(flashTime);
         mR.material.color = origColor;
+        flashRoutine = null;
     }
 }

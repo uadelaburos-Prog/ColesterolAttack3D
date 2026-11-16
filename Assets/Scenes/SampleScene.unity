@@ -1411,6 +1411,10 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 67778047}
+    - target: {fileID: 8822361442160628763, guid: 5bfb41605bc3ff543a2fab54d9ff2140, type: 3}
+      propertyPath: playerPosition
+      value: 
+      objectReference: {fileID: 67778046}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2015,6 +2019,7 @@ MonoBehaviour:
   spawnCenter: {fileID: 808182979}
   factory: {fileID: 565422535}
   delaySpawnTime: 0.3
+  runState: {fileID: 2042507820}
 --- !u!1 &811865153
 GameObject:
   m_ObjectHideFlags: 0
@@ -3185,8 +3190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeScript
   coolDown: 0.5
-  radio: 3
-  maxDistance: 2
+  radio: 5
+  maxDistance: 8
   enemy:
     serializedVersion: 2
     m_Bits: 384
@@ -4560,6 +4565,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042507818}
   - component: {fileID: 2042507819}
+  - component: {fileID: 2042507820}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4597,6 +4603,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   waveController: {fileID: 808182980}
   itWinsCanvas: {fileID: 357582499}
+--- !u!114 &2042507820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042507817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27e0e354f84bfdf4f9688f24b09533e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RunState
+  stats: {fileID: 67778049}
+  sManager: {fileID: 276316401}
+  wController: {fileID: 808182980}
 --- !u!1001 &2046955673
 PrefabInstance:
   m_ObjectHideFlags: 0

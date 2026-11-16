@@ -1,18 +1,12 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour, iHealth
 {
-    [SerializeField] private int life = 3;
+    [SerializeField] private EnemyDataSO data;
     public int currentLife;
-    [SerializeField] private int damage = 1;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private PlayerController playerController;
-
-    private MeshRenderer mr;
-    private Color orgColor;
 
     private ShopManager shopM;
     private DamageFlash flash;
@@ -20,7 +14,7 @@ public class Enemy : MonoBehaviour, iHealth
     public string ID;
     public event Action<Enemy> OnDeath;
     public HealthBar pHealtBar => healthBar;
-    public int Life => life;
+    public int Life => data.MaxLife;
     public bool canShootHim = true;
 
     [System.Obsolete]
@@ -29,13 +23,8 @@ public class Enemy : MonoBehaviour, iHealth
         shopM = FindObjectOfType<ShopManager>();
         healthBar = GetComponent<HealthBar>();
         flash = GetComponent<DamageFlash>();
-        mr = GetComponent<MeshRenderer>();
-        
-        orgColor = mr.material.color;
 
-        mr.material.color = orgColor;
-
-        currentLife = life;
+        currentLife = Life;
 
         if (playerController == null)
             playerController = FindObjectOfType<PlayerController>();
@@ -43,7 +32,7 @@ public class Enemy : MonoBehaviour, iHealth
 
     private void Update()
     {
-        healthBar.UpdateHealthBar(life, currentLife);
+        healthBar.UpdateHealthBar(Life, currentLife);
     }
 
     public void Die()
@@ -61,18 +50,19 @@ public class Enemy : MonoBehaviour, iHealth
 
     public void DoDmg()
     {
-        playerController.Life(damage);
+        playerController.Life(data.Damage);
     }
 
     public void ReciveDmg(bool dmg)
     {
+        Debug.Log($"{name} recibe daño | canShootHim: {canShootHim} | vida: {currentLife}/{Life}", this);
         if (canShootHim)
         {
             if (dmg)
             {
                 currentLife--;
-                healthBar.UpdateHealthBar(life, currentLife);
-                flash.StartFlash();
+                healthBar.UpdateHealthBar(Life, currentLife);
+                if(flash != null) flash.StartFlash();
 
                 if (currentLife <= 0)
                 {

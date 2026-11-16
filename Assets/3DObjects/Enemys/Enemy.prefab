@@ -313,9 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a35fa5cb9a9284eb8fb58ed95b0083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  life: 3
+  data: {fileID: 11400000, guid: 06a1f4cf7b8a2e04e8721c645f33bdb7, type: 2}
   currentLife: 0
-  damage: 1
   healthBar: {fileID: 6473132833404384338}
   playerController: {fileID: 0}
   Dmg: 0
@@ -356,7 +355,6 @@ MonoBehaviour:
   minDistance: 5
   maxDistance: 15
   aStarMovement: {fileID: 6503357660499890982}
-  isMooving: 0
   spheresList:
   - {fileID: 7855594301221773007}
   - {fileID: 1400463606000896463}
@@ -374,6 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d037e8090cee9941904dcdeb8fab9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AStarMovement
+  playerPosition: {fileID: 0}
 --- !u!54 &1196080487572750528
 Rigidbody:
   m_ObjectHideFlags: 0

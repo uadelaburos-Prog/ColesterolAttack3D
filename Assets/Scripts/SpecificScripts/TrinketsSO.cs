@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "shopMenu", menuName = "TrinketsSO/New Trinket", order = 0)]
 public class TrinketsSO : ScriptableObject, IComparable // Scriptable Object: objecto que se puede crear multiples instancias de uno con distintos datos entre si
@@ -21,7 +22,10 @@ public class TrinketsSO : ScriptableObject, IComparable // Scriptable Object: ob
     [SerializeField] private string itemName;
     public string ItemName => itemName;
 
-    public int price;
+    [FormerlySerializedAs("price")]
+    [SerializeField] private int basePrice;
+
+    public int BasePrice => basePrice;
 
     private void OnValidate()
     {
@@ -37,22 +41,31 @@ public class TrinketsSO : ScriptableObject, IComparable // Scriptable Object: ob
         {
             case StatType.Damage:
                 stats.playerDamage++;
-                price = stats.pricePlayerDamage += 5;
+                stats.pricePlayerDamage += 5;
                 break;
             case StatType.Health:
                 stats.playerHealth++;
-                price = stats.pricePlayerHealth += 5;
+                stats.pricePlayerHealth += 5;
                 break;
             case StatType.Speed:
                 stats.playerSpeed++;
-                price = (int)(stats.pricePlayerSpeed += 5);
+                stats.pricePlayerSpeed += 5;
                 break;
             case StatType.WeaponCooldown:
                 stats.weaponCoolDown -= 0.05f;
-                price = stats.priceWeaponCoolDown += 5;
+                stats.priceWeaponCoolDown += 5;
                 break;
         }
     }
+
+    public int GetPrice(PlayerStats stats) => statType switch
+    {
+        StatType.Damage => stats.pricePlayerDamage,
+        StatType.Health => stats.pricePlayerHealth,
+        StatType.WeaponCooldown => (int)stats.priceWeaponCoolDown,
+        StatType.Speed => (int)stats.pricePlayerSpeed,
+        _ => basePrice
+    };
 
     private string GenerateName(StatType type)
     {
@@ -69,7 +82,7 @@ public class TrinketsSO : ScriptableObject, IComparable // Scriptable Object: ob
     public int CompareTo(object obj)
     {
         if (obj is not TrinketsSO other) return 1;
-        int c = other.price.CompareTo(price);
+        int c = other.BasePrice.CompareTo(BasePrice);
         return c != 0 ? c : GetInstanceID().CompareTo(other.GetInstanceID());
     }
 }

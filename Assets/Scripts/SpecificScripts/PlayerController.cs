@@ -40,11 +40,16 @@ public class PlayerController : MonoBehaviour
         }  
 
         rb = GetComponent<Rigidbody>();
+
+        var gms = FindObjectsByType<GameManager>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        Debug.Log($"GameManagers en escena: {gms.Length} | Instance: {GameManager.Instance}");
+        Debug.Log($"GM activo: {gms[0].gameObject.activeInHierarchy}");
+
+        GameManager.Instance.RegisterPlayer(this);
     }
 
     private void Start()
     {
-        GameManager.Instance.RegisterPlayer(this);
         playerCanvas.SetActive(false);
     }
 

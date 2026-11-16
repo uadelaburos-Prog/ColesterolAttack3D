@@ -5,7 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Demonics;
-public class ShopManager : MonoBehaviour
+using Unity.VisualScripting;
+public class ShopManager : IDontDestroy<ShopManager>
 {
     [SerializeField] private PlayerStats playerStats;
 
@@ -19,7 +20,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int coins;
     [SerializeField] private TextMeshProUGUI coinsUi;
 
-    private void Awake()
+    public int Coins => coins;
+
+    protected override void Awake()
     {
         for (int i = 0; i < itemList.Count; i++)
         {
@@ -39,12 +42,12 @@ public class ShopManager : MonoBehaviour
         {
             return false;
         }
-        if (coins < item.price)
+        if (coins < item.GetPrice(playerStats))
         {
             return false;
         }
 
-        RemoveCoins(item.price);
+        RemoveCoins(item.BasePrice);
         //purchasedItems.Add(id);
         purchasedItems2.Add(id);
 
@@ -69,6 +72,12 @@ public class ShopManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins += amount;
+        UpdateCoinsUI();
+    }
+
+    public void SetCoins(int amount)
+    {
+        coins = amount;
         UpdateCoinsUI();
     }
 

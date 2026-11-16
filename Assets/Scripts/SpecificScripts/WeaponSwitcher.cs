@@ -4,29 +4,41 @@ using UnityEngine;
 
 public class WeaponSwitcher : MonoBehaviour
 {
-    [SerializeField] private IWeapon weapon;
+    private IWeapon weapon;
     [SerializeField] private WeaponScript pistol;
     [SerializeField] private MeleeScript melee;
 
+    private void Start() => EquipPistol();
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SetWeapon(pistol);
-            pistol.gameObject.SetActive(true);
-            melee.gameObject.SetActive(false);
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))EquipPistol();
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2))EquipMelee();
+                                                
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            SetWeapon(melee);
-            pistol.gameObject.SetActive(false);
-            melee.gameObject.SetActive(true);
+            Debug.Log($"click | arma: {(weapon == null ? "NULL" : weapon.Name)}");
+            weapon?.Attack();
         }
+    }
+
+    private void EquipPistol()
+    {
+        SetWeapon(pistol);
+        pistol.gameObject.SetActive(true);
+        melee.gameObject.SetActive(false);
+    }
+
+    private void EquipMelee()
+    {
+        SetWeapon(melee);
+        pistol.gameObject.SetActive(false);
+        melee.gameObject.SetActive(true);
     }
 
     private void SetWeapon(IWeapon currentWeapon)
     {
-        this.weapon = currentWeapon;
+        weapon = currentWeapon;
     }
 }

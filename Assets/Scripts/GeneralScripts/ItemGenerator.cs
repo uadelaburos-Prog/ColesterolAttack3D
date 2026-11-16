@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ItemGenerator : MonoBehaviour
+public class ItemGenerator : IDontDestroy<ItemGenerator>
 {
     [SerializeField] private int itemsToGenerate = 5;
     [SerializeField] private List<TrinketsSO> itemsList = new List<TrinketsSO>();
@@ -12,7 +12,7 @@ public class ItemGenerator : MonoBehaviour
 
     [SerializeField] private AVL<TrinketsSO> AVLItems = new AVL<TrinketsSO>();
 
-    private void Awake()
+    protected override void Awake()
     {
         foreach(TrinketsSO t in itemsList)
         {

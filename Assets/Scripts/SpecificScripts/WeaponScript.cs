@@ -7,8 +7,9 @@ public class WeaponScript : MonoBehaviour, IWeapon
     [SerializeField] private Transform shootPoint;
     [SerializeField] private LineRenderer line;
     [SerializeField] private LayerMask enemy;
+    private float nextShotTime;
+    public bool canShoot;
     private float range = 20f;
-    public bool canShoot = true;
     public string Name => "Pistol";
 
     private void Start()
@@ -25,25 +26,22 @@ public class WeaponScript : MonoBehaviour, IWeapon
 
         line.SetPosition(0, origin);
         line.SetPosition(1, didHit ? hit.point : origin + dir * range);
-
-        if (!didHit) { SetLineColor(Color.grey); return; }
+        SetLineColor(didHit ? Color.green : Color.red);
+    }
+    public void Attack()
+    {
+        if (!canShoot || Time.time < nextShotTime) return;
+        if (!Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, range, enemy)) return;
 
         Enemy e = hit.collider.GetComponentInParent<Enemy>();
-        bool shooting = Input.GetKeyDown(KeyCode.Mouse0) && canShoot;
-
-        if (e == null || !shooting) { SetLineColor(Color.white); return; }
+        if (e == null) return;
 
         SetLineColor(Color.red);
         e.ReciveDmg(true);
         hit.collider.GetComponentInParent<Shielder>()?.ShieldDmg(true);
-        StartCoroutine(CoolDownWeapon());
-    }
 
-    private IEnumerator CoolDownWeapon()
-    {
-        canShoot = false;
-        yield return new WaitForSeconds(GameManager.Instance.Player.Stats.weaponCoolDown);
-        canShoot = true;
+        Debug.Log($"GM: {GameManager.Instance != null} | Player: {GameManager.Instance?.Player != null} | Stats: {GameManager.Instance?.Player?.Stats != null}");
+        nextShotTime = Time.time + GameManager.Instance.Player.Stats.weaponCoolDown;
     }
 
     private void OnDrawGizmos()

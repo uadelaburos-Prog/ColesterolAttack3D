@@ -1,16 +1,8 @@
 using Demonics;
 using UnityEngine;
 
-enum StalkerStates
-{
-    Idle,
-    Following,
-    AttackPlayer,
-}
-
 public class StalkerAI : MonoBehaviour
 {
-    private StalkerStates states;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private LayerMask shielderMask;
 
@@ -33,68 +25,73 @@ public class StalkerAI : MonoBehaviour
     private GameObject player;
     private Enemy self;
 
-    private PriorityQueue<StalkerStates> desisions = new PriorityQueue<StalkerStates>(10);
+    private readonly StateMachine machine = new StateMachine();
+    private IEnemyState idle;
+    private IEnemyState following;
+    private IEnemyState attackPlayer;
+
+    private PriorityQueue<IEnemyState> desisions = new PriorityQueue<IEnemyState>(10);
 
     private Shielder currentShielder;
+
+    // Datos que se recalculan en cada Update y leen los estados
+    private Vector3 playerDir;
+    private Vector3 currentShielderDir;
+    private float currentSpeed;
 
     private void Awake()
     {
         self = GetComponent<Enemy>();
         player = GameObject.Find("Player");
+
+        idle = new IdleState();
+        following = new FollowingState(this);
+        attackPlayer = new AttackPlayerState(this);
     }
 
     private void OnEnable()
     {
         StopAllCoroutines();
 
-        states = StalkerStates.Idle;
-
         if (self != null)
             self.canShootHim = true;
 
         //Astar Movement
         if (aStarMovement != null) aStarMovement.ResetPath();
+
+        machine.ChangeState(idle);
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         float distanceFactor = Mathf.InverseLerp(minDistance, maxDistance, distanceToPlayer);
-        float actualVelocity = Mathf.Lerp(followingSpeed, attackSpeed, distanceFactor);
+        currentSpeed = Mathf.Lerp(followingSpeed, attackSpeed, distanceFactor);
 
-        Vector3 direction = (player.transform.position - transform.position).normalized;
-        direction.y = 0;
-        direction.Normalize();
+        playerDir = (player.transform.position - transform.position).normalized;
+        playerDir.y = 0;
+        playerDir.Normalize();
 
-        Vector3 shielderDir = MoveTowardsShielder();
-        states = EvaluateState(distanceToPlayer, shielderDir);
+        currentShielderDir = MoveTowardsShielder();
 
-        switch (states)
-        {
-            case StalkerStates.Idle:
-                break;
-            case StalkerStates.Following:
-                //MoveTowards(shielderDir, actualVelocity);
-                aStarMovement.FollowPath(shielderDir, actualVelocity);
-                break;
-            case StalkerStates.AttackPlayer:
-                //MoveTowards(direction,actualVelocity);
-                aStarMovement.FollowPath(direction, actualVelocity);
-                break;
-        }
+        IEnemyState next = EvaluateState(distanceToPlayer, currentShielderDir);
+        if (next != machine.Current)
+            machine.ChangeState(next);
+
+        machine.Tick();
     }
 
-    private StalkerStates EvaluateState(float distanceToPlayer, Vector3 shielderDir)
+    private IEnemyState EvaluateState(float distanceToPlayer, Vector3 shielderDir)
     {
         desisions.Clear();
 
-        desisions.Enqueue(StalkerStates.Idle,3);
+        desisions.Enqueue(idle, 3);
 
         if (shielderDir != Vector3.zero)
-            desisions.Enqueue(StalkerStates.Following, 2);
+            desisions.Enqueue(following, 2);
 
         if (distanceToPlayer <= followingPlayerRadius)
-            desisions.Enqueue(StalkerStates.AttackPlayer, 1);
+            desisions.Enqueue(attackPlayer, 1);
 
         return desisions.Dequeue();
     }
@@ -153,5 +150,34 @@ public class StalkerAI : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, followingShielderRadius);
+    }
+
+    private class IdleState : IEnemyState
+    {
+        public void Enter() { }
+        public void Exit() { }
+        public void Tick() { }
+    }
+
+    private class FollowingState : IEnemyState
+    {
+        private readonly StalkerAI owner;
+        public FollowingState(StalkerAI owner) { this.owner = owner; }
+
+        public void Enter() { }
+        public void Exit() { }
+        public void Tick() =>
+            owner.aStarMovement.FollowPath(owner.currentShielderDir, owner.currentSpeed);
+    }
+
+    private class AttackPlayerState : IEnemyState
+    {
+        private readonly StalkerAI owner;
+        public AttackPlayerState(StalkerAI owner) { this.owner = owner; }
+
+        public void Enter() { }
+        public void Exit() { }
+        public void Tick() =>
+            owner.aStarMovement.FollowPath(owner.playerDir, owner.currentSpeed);
     }
 }

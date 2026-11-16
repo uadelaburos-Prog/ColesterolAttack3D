@@ -1,4 +1,3 @@
-using ED262C;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,21 +22,17 @@ public class WaveController : MonoBehaviour
     public event Action OnWaveCompleted;
 
     private List<Enemy> aliveEnemies = new List<Enemy>();
-    private SimpleArrayQueue<SpawnData> spawnQueue = new SimpleArrayQueue<SpawnData>();
+    private WaveEventQueue spawnQueue = new WaveEventQueue();
 
     private bool areEnemies;
     private bool spawning;
 
     public int Amount => enemysAmount;
-    public SimpleArrayQueue<SpawnData> SpawnQueue { get { return spawnQueue; } }
+    public WaveEventQueue SpawnQueue => spawnQueue;
     public string[] Names => names;
     public Vector2 SpawnAreaSize { get { return spawnAreaSize; } }
 
-    public struct SpawnData
-    {
-        public string type;
-        public Vector3 pos;
-    }
+    [SerializeField] private RunState runState;
 
     private void Start()
     {
@@ -60,11 +55,7 @@ public class WaveController : MonoBehaviour
 
         for (int i = 0; i < enemysAmount; i++)
         {
-            spawnQueue.Enqueue(new SpawnData
-            {
-                type = names[Random.Range(0, names.Length)],
-                pos = GetRandomPosInArea()
-            });
+            spawnQueue.Enqueue(new SpawnEnemyEvent(names[Random.Range(0, names.Length)], GetRandomPosInArea(), RegisterEnemy));
         }
 
         StartCoroutine(SpawnQueueRoutine());
@@ -76,19 +67,18 @@ public class WaveController : MonoBehaviour
 
         while (!spawnQueue.IsEmpty)
         {
-            SpawnData data = spawnQueue.Dequeue();
-            Enemy e = EnemyDPool.Instance.GetEnemy(data.type, data.pos);
-
-            if(e != null)
-            {
-                aliveEnemies.Add(e);
-                e.OnDeath += HandleEnemyDeath;
-            }
+            spawnQueue.ExecuteNext();
             yield return new WaitForSeconds(delaySpawnTime);
         }
 
         areEnemies = true;
         spawning = false;
+    }
+
+    private void RegisterEnemy(Enemy e)
+    {
+        aliveEnemies.Add(e);
+        e.OnDeath += HandleEnemyDeath;
     }
 
     private void HandleEnemyDeath(Enemy e)
@@ -109,6 +99,7 @@ public class WaveController : MonoBehaviour
     {
         shopManager.ClearPurchasedItems();
         itemGenerator.GenerateItems();
+        GameManager.Instance.checkpointSave.Save(runState);
     }
 
     public Vector3 GetRandomPosInArea()
@@ -116,5 +107,11 @@ public class WaveController : MonoBehaviour
         float x = Random.Range(-spawnAreaSize.x / 2f, spawnAreaSize.x / 2f);
         float z = Random.Range(-spawnAreaSize.y / 2f, spawnAreaSize.y / 2f);
         return spawnCenter.position + new Vector3(x, 0f, z);
+    }
+
+    public void SetProgress(int wave, int amount)
+    {
+        waveCount = wave;
+        enemysAmount = amount;
     }
 }

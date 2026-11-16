@@ -11,6 +11,6 @@ public class ItemSourceData : MonoBehaviour
     {
         sourceData = data;
         itemID = data.ItemID;
-        cost = data.price;
+        cost = data.BasePrice;
     }
 }

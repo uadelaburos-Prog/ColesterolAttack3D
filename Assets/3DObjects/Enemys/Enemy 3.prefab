@@ -151,6 +151,37 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7136360191274675016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 555946601605573148}
+  m_Layer: 7
+  m_Name: Shootpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &555946601605573148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7136360191274675016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.70000076}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8206677888753257383}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7460346430355932732
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +197,9 @@ GameObject:
   - component: {fileID: 8401719897825970552}
   - component: {fileID: 6629085147477934713}
   - component: {fileID: 1661148761559702854}
+  - component: {fileID: 438524975145888604}
   - component: {fileID: 7814619560701356124}
+  - component: {fileID: 8822361442160628763}
   m_Layer: 7
   m_Name: Enemy 3
   m_TagString: Untagged
@@ -188,6 +221,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8939933295036641422}
+  - {fileID: 555946601605573148}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4454232780420408701
@@ -282,9 +316,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a35fa5cb9a9284eb8fb58ed95b0083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  life: 3
+  data: {fileID: 11400000, guid: 2305c6aacb13ab74892e45865a3c743a, type: 2}
   currentLife: 0
-  damage: 1
   healthBar: {fileID: 6629085147477934713}
   playerController: {fileID: 0}
   Dmg: 0
@@ -317,6 +350,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageFlash
   flashTime: 0.15
+--- !u!114 &438524975145888604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460346430355932732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4b64297d00552b418134b0693e6df3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShooterAI
+  minDistance: 6
+  maxDistance: 10
+  chasingSpeed: 3
+  retreatSpeed: 3
+  agroSpeed: 10
+  maxAmmo: 8
+  fireRate: 0.8
+  firePoint: {fileID: 555946601605573148}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  eyeHeight: 1.6
+  targetHeight: 1.2
+  retreatCheckDistance: 1
+  aStarMovement: {fileID: 8822361442160628763}
 --- !u!54 &7814619560701356124
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -344,6 +404,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &8822361442160628763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460346430355932732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d037e8090cee9941904dcdeb8fab9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AStarMovement
+  playerPosition: {fileID: 0}
 --- !u!1 &7957653163425838566
 GameObject:
   m_ObjectHideFlags: 0
