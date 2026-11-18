@@ -160,6 +160,6 @@ public class SimpleArraySet<T>: ISimpleSet<T>
             }
         }
         
-        return -1;
+        return - 1;
     }
 }
